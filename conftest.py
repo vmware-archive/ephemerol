@@ -1,0 +1,1 @@
+#Exploiting py.test to prevent having to run pip install -e . before tests can run.
