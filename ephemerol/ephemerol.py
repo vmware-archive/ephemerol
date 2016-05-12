@@ -22,13 +22,13 @@ def is_valid_file(parser, arg):
 def main(argv):
     args = arg_parser.parse_args(argv)
     input_file = args.file
-    print "Examining %s" % input_file
+    print("Examining %s" % input_file)
     # pass file to process strategy
     processor = SingleFileProcessor.with_defaults()
     results = processor.process(input_file)
     results.insert(0, ["Source", "Result"])
     table = AsciiTable(results)
-    print table.table
+    print(table.table)
 
 
 if __name__ == '__main__':

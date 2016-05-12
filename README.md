@@ -1,13 +1,17 @@
 # ephemerol
 A Cloud Native readiness scanner
 
-## Running
+## Installing
+(Need to work on install script)
+
+## Development
+### Running Directly
 Run the script as follows to get information on how to invoke it:
 ```
 python ephemerol\ephemerol.py -h
 ```
 
-## Testing
+### Testing
 To run tests, make sure to install dependencies, and also install the project in editable mode.
 ```
 pip install -r requirements.txt

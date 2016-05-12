@@ -1,4 +1,4 @@
-from JarModule import JarModule
+import JavaModule
 
 
 class SingleFileProcessor:
@@ -9,7 +9,7 @@ class SingleFileProcessor:
     @classmethod
     def with_defaults(cls):
         return cls([
-            JarModule()
+            JavaModule
         ])
 
     def process(self, file):
