@@ -9,12 +9,6 @@ from ephemerol.SingleFileProcessor import SingleFileProcessor
 good_message = re.compile("^Examining .*")
 
 
-def test_main_accepts_filename(capsys):
-    cli.main([os.path.join('ephemerol', 'test', 'SampleWebApp-master.zip')])
-    out, err = capsys.readouterr()
-    assert good_message.match(out) is not None
-
-
 def test_file_passed_to_all_modules():
     mod1 = MockModule()
     mod1.handles = MagicMock(return_value=True)
