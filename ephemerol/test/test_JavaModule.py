@@ -5,10 +5,11 @@ import re
 
 from ephemerol import JavaModule
 
+class pad_tests(unittest.TestCase):
 
 def test_accepts_files_with_zip_suffix():
     assert JavaModule.handles("foo.zip")
-    assert JavaModule.handles(".zip")
+    assert JavaModule.handles(".zip2")
     assert JavaModule.handles(u'ファイル.zip')
 
 
