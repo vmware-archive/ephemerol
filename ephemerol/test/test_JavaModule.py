@@ -3,7 +3,7 @@ from __future__ import print_function
 import os
 import re
 import unittest
-import pandas as pd
+from pprint import pprint
 
 from ephemerol import JavaModule
 
@@ -24,10 +24,13 @@ class test_JavaModule(unittest.TestCase):
     def test_java_module(self):
         results = JavaModule.do_handle(os.path.join("ephemerol", "test", "SampleWebApp-master.zip"))
         assert results is not None
-        print(results)
-        self.assertEqual(1, results[(results.REFACTOR_RATING == 3)].shape[0])
-        self.assertEqual(4, results[(results.REFACTOR_RATING == 1)].shape[0])
-        self.assertEqual(31, results[(results.REFACTOR_RATING == 0)].shape[0])
+
+        self.assertEqual(36, len(results)) #Analyze 36 files exactly
+        self.assertEqual(7,sum([entry['REFACTOR_RATING'] for entry in results])) #Confirm total value of all refactor ratings is 7
+        self.assertEqual(1, results[0]['REFACTOR_RATING']) #Confirm the first entry, ibm-web-ext.xmi, is 1
+        self.assertEqual(0, results[4]['REFACTOR_RATING']) # Confirm the 5th entry, css, is 0
+
+
 
 
 if __name__ == '__main__':

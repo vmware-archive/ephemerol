@@ -1,5 +1,5 @@
 from zipfile import ZipFile
-import pandas as pd
+#import pandas as pd
 
 # good file groups
 cloudnative_config_group = ['persistence.xml',
@@ -121,4 +121,5 @@ def do_handle(file_name):
         config_scan(zfile.namelist(), results)
         source_scan(zfile, results)
 
-    return pd.DataFrame(results)
+
+    return results
