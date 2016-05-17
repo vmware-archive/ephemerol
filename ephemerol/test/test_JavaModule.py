@@ -4,6 +4,7 @@ import os
 import re
 import unittest
 import pandas as pd
+from ephemerol import ScanRecord
 
 from ephemerol import JavaModule
 
@@ -20,14 +21,13 @@ class test_JavaModule(unittest.TestCase):
         assert not JavaModule.handles("Jar.doc")
         assert not JavaModule.handles("foo.jar.doc")
 
-
     def test_java_module(self):
         results = JavaModule.do_handle(os.path.join("ephemerol", "test", "SampleWebApp-master.zip"))
-        assert results is not None
-        print(results)
-        self.assertEqual(1, results[(results.REFACTOR_RATING == 3)].shape[0])
-        self.assertEqual(4, results[(results.REFACTOR_RATING == 1)].shape[0])
-        self.assertEqual(31, results[(results.REFACTOR_RATING == 0)].shape[0])
+        df = pd.DataFrame(results)
+        print(df)
+        self.assertEqual(1, df[(df.refactor_rating == 3)].shape[0])
+        self.assertEqual(6, df[(df.refactor_rating == 1)].shape[0])
+        self.assertEqual(31, df[(df.refactor_rating == 0)].shape[0])
 
 
 if __name__ == '__main__':

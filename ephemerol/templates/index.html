@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html ng-app="pad" ng-cloak="true">
+<script src="static/js/angular.min.js"></script>
+<script src="static/js/app.js"></script>
+
+<head></head>
+<body>
+<h1>EPHEMEROL</h1>
+<div ng-controller="Controller as c">
+    <input type = "file" file-model = "source_file"/>
+    <button type="button" ng-click="c.callSomething()" title="analy">analyze</button>
+    {[c.result]}
+</div>
+</body>
+
+</html>

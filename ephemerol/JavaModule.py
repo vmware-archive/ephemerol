@@ -1,8 +1,8 @@
 from zipfile import ZipFile
-import pandas as pd
+from ScanRecord import ScanRecord
 
 # good file groups
-cloudnative_config_group = ['persistence.xml',
+web_profile_config_group = ['persistence.xml',
                             'web.xml',
                             'applicationContext.xml',
                             'WEB-INF',
@@ -77,26 +77,31 @@ def config_scan(file_path_list, results):
         if path.endswith('/'):
             path = path[:-1]
         file_name = path.split('/')[-1]
-        if file_name in cloudnative_config_group:
-            results.append({'SCAN_GROUP': 'Cloud Native Config Files',
-                            'FILE_NAME': file_name,
-                            'REFACTOR_RATING': 0})
+        if file_name in web_profile_config_group:
+            results.append(ScanRecord(file_name=file_name,
+                                     file_category="Web Profile",
+                                     file_type="configuration",
+                                     refactor_rating=0))
         elif file_name in jee_config_group:
-            results.append({'SCAN_GROUP': 'JEE Config Files',
-                            'FILE_NAME': file_name,
-                            'REFACTOR_RATING': 1})
+            results.append(ScanRecord(file_name=file_name,
+                                     file_category="JEE",
+                                     file_type="configuration",
+                                     refactor_rating=1))
         elif file_name in weblogic_config_group:
-            results.append({'SCAN_GROUP': 'Weblogic Config Files',
-                            'FILE_NAME': file_name,
-                            'REFACTOR_RATING': 1})
+            results.append(ScanRecord(file_name=file_name,
+                                     file_category="Weblogic",
+                                     file_type="configuration",
+                                     refactor_rating=1))
         elif file_name in websphere_config_group:
-            results.append({'SCAN_GROUP': 'Websphere Config Files',
-                            'FILE_NAME': file_name,
-                            'REFACTOR_RATING': 1})
+            results.append(ScanRecord(file_name=file_name,
+                                     file_category="Websphere",
+                                     file_type="configuration",
+                                     refactor_rating=1))
         elif file_name in jboss_config_group:
-            results.append({'SCAN_GROUP': 'JBoss Config Files',
-                            'FILE_NAME': file_name,
-                            'REFACTOR_RATING': 1})
+            results.append(ScanRecord(file_name=file_name,
+                                 file_category="JBoss",
+                                 file_type="configuration",
+                                 refactor_rating=1))
 
 
 def source_scan(zfile, results):
@@ -104,16 +109,65 @@ def source_scan(zfile, results):
         if file.endswith('.java'):
             java_file_scan(zfile.open(file).readlines(), file, results)
 
+
 def java_file_scan(file_lines, file, results):
     for line in file_lines:
-        if "javax.ejb." in line:
-            results.append({'SCAN_GROUP': 'Java Source Scan - EJB',
-                            'FILE_NAME': file.split('/')[-1],
-                            'REFACTOR_RATING': 3})
-        if "org.springframework." in line:
-            results.append({'SCAN_GROUP': 'Java Source Scan - Spring',
-                            'FILE_NAME': file.split('/')[-1],
-                            'REFACTOR_RATING': 0})
+        if "import javax.ejb." in line:
+            results.append(ScanRecord(file_name=file,
+                                      file_category="EJB",
+                                      file_type="java",
+                                      refactor_rating=3))
+        elif "import org.jboss." in line:
+            results.append(ScanRecord(file_name=file,
+                                      file_category="JBoss",
+                                      file_type="java",
+                                      refactor_rating=3))
+        elif "import javax.resource." in line:
+            results.append(ScanRecord(file_name=file,
+                                      file_category="JCA",
+                                      file_type="java",
+                                      refactor_rating=3))
+        elif "import javax.jms." in line:
+            results.append(ScanRecord(file_name=file,
+                                      file_category="JMS",
+                                      file_type="java",
+                                      refactor_rating=2))
+        elif "import javax.naming." in line:
+            results.append(ScanRecord(file_name=file,
+                                      file_category="JNDI",
+                                      file_type="java",
+                                      refactor_rating=1))
+        elif "import javax.persistence." in line:
+            results.append(ScanRecord(file_name=file,
+                                      file_category="JPA",
+                                      file_type="java",
+                                      refactor_rating=0))
+        elif "import javax.transaction." in line:
+            results.append(ScanRecord(file_name=file,
+                                      file_category="JTA",
+                                      file_type="java",
+                                      refactor_rating=0))
+        elif "import org.springframework.jndi." in line:
+            results.append(ScanRecord(file_name=file,
+                                      file_category="Spring/JNDI",
+                                      file_type="java",
+                                      refactor_rating=1))
+        elif "import weblogic." in line:
+            results.append(ScanRecord(file_name=file,
+                                      file_category="Weblogic",
+                                      file_type="java",
+                                      refactor_rating=3))
+        elif "import ibm.websphere." in line or "import ibm.wsspi." in line:
+            results.append(ScanRecord(file_name=file,
+                                      file_category="WebSphere",
+                                      file_type="java",
+                                      refactor_rating=3))
+        elif "import org.springframework." in line:
+            results.append(ScanRecord(file_name=file,
+                                      file_category="Spring",
+                                      file_type="java",
+                                      refactor_rating=0))
+
 
 def do_handle(file_name):
     results = []
@@ -121,4 +175,4 @@ def do_handle(file_name):
         config_scan(zfile.namelist(), results)
         source_scan(zfile, results)
 
-    return pd.DataFrame(results)
+    return results

@@ -1,5 +1,5 @@
 import JavaModule
-
+import pandas as pd
 
 class SingleFileProcessor:
 
@@ -13,8 +13,9 @@ class SingleFileProcessor:
         ])
 
     def process(self, file):
-        results = [ ]
+        columns = ['SCAN_GROUP', 'FILE_NAME', 'REFACTOR_RATING']
+        df_results = pd.DataFrame(columns=columns)
         for a_module in self.modules:
             if(a_module.handles(file)):
-                results += a_module.do_handle(file)
-        return results
+                df_results.append(a_module.do_handle(file))
+        return df_results
