@@ -65,40 +65,33 @@ jboss_config_group = ['jaws.xml',
                       'jboss-service.xml',
                       'jboss-web.xml']
 
-
-def handles(file_name):
-    return (
-        file_name.endswith(".zip")
-    )
-
-
 def config_scan(file_path_list, results):
     for path in file_path_list:
         if path.endswith('/'):
             path = path[:-1]
         file_name = path.split('/')[-1]
         if file_name in web_profile_config_group:
-            results.append(ScanRecord(file_name=file_name,
+            results.append(ScanRecord(file_name=path,
                                      file_category="Web Profile",
                                      file_type="configuration",
                                      refactor_rating=0))
         elif file_name in jee_config_group:
-            results.append(ScanRecord(file_name=file_name,
+            results.append(ScanRecord(file_name=path,
                                      file_category="JEE",
                                      file_type="configuration",
                                      refactor_rating=1))
         elif file_name in weblogic_config_group:
-            results.append(ScanRecord(file_name=file_name,
+            results.append(ScanRecord(file_name=path,
                                      file_category="Weblogic",
                                      file_type="configuration",
                                      refactor_rating=1))
         elif file_name in websphere_config_group:
-            results.append(ScanRecord(file_name=file_name,
+            results.append(ScanRecord(file_name=path,
                                      file_category="Websphere",
                                      file_type="configuration",
                                      refactor_rating=1))
         elif file_name in jboss_config_group:
-            results.append(ScanRecord(file_name=file_name,
+            results.append(ScanRecord(file_name=path,
                                  file_category="JBoss",
                                  file_type="configuration",
                                  refactor_rating=1))
@@ -108,7 +101,16 @@ def source_scan(zfile, results):
     for file in zfile.namelist():
         if file.endswith('.java'):
             java_file_scan(zfile.open(file).readlines(), file, results)
+        elif file.endswith('.xml'):
+            xml_file_scan(zfile.open(file).readlines(), file, results)
 
+def xml_file_scan(file_lines, file, results):
+    for line in file_lines:
+        if "port=" in line:
+            results.append(ScanRecord(file_name=file,
+                                      file_category="Port Hard-Code",
+                                      file_type="configuration",
+                                      refactor_rating=1))
 
 def java_file_scan(file_lines, file, results):
     for line in file_lines:
@@ -168,8 +170,7 @@ def java_file_scan(file_lines, file, results):
                                       file_type="java",
                                       refactor_rating=0))
 
-
-def do_handle(file_name):
+def scan_archive(file_name):
     results = []
     with ZipFile(file_name, 'r') as zfile:
         config_scan(zfile.namelist(), results)
