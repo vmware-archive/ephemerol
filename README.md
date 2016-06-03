@@ -6,9 +6,28 @@ A Cloud Native readiness scanner
 
 ## Development
 ### Running Directly
-Run the script as follows to get information on how to invoke it:
+This utility uses Flask to run.  Install Flask as follows:
 ```
-python ephemerol\ephemerol.py -h
+pip install flask
+```
+
+You then need to set an environment variable to point to the main Flask app script:
+#### Windows Commmand Prompt
+```
+set FLASK_APP=ephemerol\ephemerol-web.py
+```
+#### Windows Powershell
+```
+$env:FLASK_APP="ephemerol\ephemerol-web.py"
+```
+#### \*nix types
+```
+export FLASK_APP=ephemerol\ephemerol-web.py
+```
+
+Finally, run the app as follows to start the web UI:
+```
+flask run
 ```
 
 ### Testing
