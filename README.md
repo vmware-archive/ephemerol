@@ -23,7 +23,7 @@ $env:FLASK_APP="ephemerol\ephemerol-web.py"
 ```
 #### \*nix types
 ```
-export FLASK_APP=ephemerol\ephemerol-web.py
+export FLASK_APP=ephemerol/ephemerol-web.py
 ```
 
 Finally, run the app as follows to start the web UI:
