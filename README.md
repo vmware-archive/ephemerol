@@ -1,5 +1,6 @@
 # ephemerol
-A Cloud Native readiness scanner
+A little Cloud Native readiness scanner
+![build status](https://travis-ci.org/Pivotal-Field-Engineering/ephemerol.svg?branch=master)
 
 ## Installing
 (Need to work on install script)
