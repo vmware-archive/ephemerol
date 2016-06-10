@@ -92,6 +92,6 @@ ENV/
 .ropeproject
 
 # IntelliJ
-.idea/*
+.idea/*.xml
 .idea
 *.iml
