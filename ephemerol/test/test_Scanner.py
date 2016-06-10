@@ -33,7 +33,7 @@ class test_Scanner(unittest.TestCase):
         Scanner.config_scan(file_path_list=file_path_list)
         results = Scanner.scan_results
         self.assertEqual(4, len(results))
-        print(results)
+        #print(results)
 
 
 if __name__ == '__main__':
