@@ -4,115 +4,65 @@
     <title>Ephemerol</title>
     <meta charset='utf-8'>
     <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
-    <title>Pivotal Gary</title>
-    <link href="static/css/junk.css" rel="stylesheet" type="text/css"/>
-    <link href="static/css/pivotal-ui.css" rel="stylesheet" type="text/css"/>
-    <script src="static/js/pivotal-ui.js" type="text/javascript"></script>
-    <!--<script src="static/js/particles.min.js" type="text/javascript"></script>-->
+    <title>Pivotal Ephemerol</title>
+    <link rel="icon" href="/static/favicon.ico">
+    <link href="/static/css/junk.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/css/pivotal-ui.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div class='paxl'>
     <div class='container'>
         <h1 class='type-neutral-2 pull-left mvn'>
-            <span>Pivotal</span>
-            <span class='em-max'>Ephemerol</span>
+            <a href="/" class="span"><span>Pivotal</span>
+                <span class='em-max'>Ephemerol</span></a>
         </h1>
-
-        <ul class='list-inline pull-right mtl lhxl'>
-            <li>
-                <a class='link-lowlight-inverse' href='/Java'>Java</a>
-            </li>
-            <li>
-                <a class='link-lowlight-inverse' href='/NET'>.NET</a>
-            </li>
-        </ul>
-
+        <div class='pull-right '>
+            <form action="/upload" method="post" enctype="multipart/form-data" role="form"
+                  class="styleguide-form form-inline">
+                <div class="form-group">
+                    <input type="file" id="file" name="file" class="btn btn-highlight-alt">
+                </div>
+                <div class="form-group">
+                    <button type="submit" name="submitbtn" class="btn btn-highlight-alt" value="csv_load">CSV Rules
+                        Load
+                    </button>
+                    <button type="submit" name="submitbtn" class="btn btn-highlight-alt" value="zip_scan">ZIP Source
+                        Scan
+                    </button>
+                </div>
+            </form>
+            <div>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="alert alert-info">
+                            {% for message in messages %}
+                                <div class="media-left">
+                                    <i class="fa alert-icon fa-info-circle"></i>
+                                </div>
+                                <div class="media-body em-high">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
     </div>
 </div>
 <hr class='divider-alternate-2 mvn'>
-<div class='pane bg-gradient-2'>
-    <div id='particles'></div>
-    <div class='container pvxxxl'>
-        <div class='pvxxxl txt-c type-neutral-11'>
-            <div class='row mbl'>
-                <div class='col-md-24'>
-                    <h1 class='title em-high mvn'>Source Code Scanner</h1>
-                    <h2 class='mtn type-neutral-9'>Upload source .ZIP to start the re-platform evaluation</h2>
-                </div>
-            </div>
-            {% block body %}{% endblock %}
-        </div>
-    </div>
-</div>
-<div class='pane footer bg-dark-1'>
+{% block body %}{% endblock %}
+<div class='footer bg-dark-1'>
     <div class='container'>
         <div class='row'>
-            <div class='col-sm-8'>
+            <div class='col-md-24'>
                 <p class='type-neutral-4 mtxl'>
                     © 2016 Pivotal Software, Inc.
-                    <br>
                     All Rights Reserved.
                 </p>
             </div>
-            <div class='col-sm-4'>
-                <h3 class='h4 type-neutral-11 em-alt mbs'>Company</h3>
-                <ul class='list-unstyled'>
-                    <li>
-                        <a class='link-lowlight-alt' href='http://support.run.pivotal.io'>Support</a>
-                    </li>
-                    <li>
-                        <a class='link-lowlight-alt' href='http://docs.run.pivotal.io'>Docs</a>
-                    </li>
-                    <li>
-                        <a class='link-lowlight-alt' href='https://console.run.pivotal.io/tools'>Tools</a>
-                    </li>
-                    <li>
-                        <a class='link-lowlight-alt' href='http://blog.pivotal.io/cloud-foundry-pivotal'>Blog</a>
-                    </li>
-                    <li>
-                        <a class='link-lowlight-alt' href='http://status.run.pivotal.io'>Status</a>
-                    </li>
-                    <li>
-                        <a class='link-lowlight-alt' href='http://www.pivotal.io/careers'>Jobs</a>
-                    </li>
-                </ul>
-            </div>
-            <div class='col-sm-4'>
-                <h3 class='h4 type-neutral-11 em-alt mbs'>Company</h3>
-                <ul class='list-unstyled'>
-                    <li>
-                        <a class='link-lowlight-alt' href='https://twitter.com/pivotalws'>
-                            <i class='fa fa-twitter mrm'></i>
-                            Twitter
-                        </a>
-                    </li>
-                    <li>
-                        <a class='link-lowlight-alt' href='https://www.facebook.com/cloudfoundry'>
-                            <i class='fa fa-facebook-square mrm'></i>
-                            Facebook
-                        </a>
-                    </li>
-                    <li>
-                        <a class='link-lowlight-alt' href='https://plus.google.com/+cloudfoundry/posts'>
-                            <i class='fa fa-google-plus-square mrm'></i>
-                            Google Plus
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class='col-sm-5 col-md-4'>
-                <h3 class='h4 type-neutral-11 em-alt mbs'>Need Help?</h3>
-                <ul class='list-unstyled'>
-                    <li class='type-neutral-11'>
-                        For questions, comments or feedback
-                        <br>
-                        <a class='link-lowlight-alt' href='mailto:support@run.pivotal.io'>support@run.pivotal.io</a>
-                    </li>
-                </ul>
-            </div>
         </div>
     </div>
 </div>
-<script src="static/js/particles-app.js" type="text/javascript"></script>
 </body>
 </html>

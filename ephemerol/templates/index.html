@@ -1,15 +1,101 @@
 {% extends "layout.html" %}
 {% block body %}
-    <div class='row'>
-                <form action="/scan_csv" method="post" enctype="multipart/form-data" role="form"
-                      class="styleguide-form form-inline">
-                    <div class="form-group">
-                        <input type="file" id="file" name="file" class="btn btn-default">
+    <div class='pane bg-gradient-2'>
+        <div class='container pvxxxl'>
+            <div class='pvl txt-c type-neutral-11'>
+                <div class='row mbl'>
+                    <div>
+                        <h1 class='title em-high mvn'>Source Code Scanner</h1>
+                        <h2 class='mtn type-neutral-9'>Upload source .ZIP to conduct <strong>Cloud Ready</strong> check</h2>
                     </div>
-                    <div class="form-group">
-                        <button type="submit" id="uploadbtn1" class="btn btn-default">Scan</button>
+                </div>
+                <div class='row'>
+                    <div class='col-md-8'>
+                        <div class='panel panel-basic bg-accent-1'>
+                            <div class='panel-body txt-c pvxxl'>
+                                <h2>Java</h2>
+                                <p>
+                                    Application server dependencies, JEE API use and hard-coded
+                                    configuration files
+                                </p>
+                            </div>
+                        </div>
                     </div>
-
-                </form>
+                    <div class='col-md-8'>
+                        <div class='panel panel-basic bg-accent-1'>
+                            <div class='panel-body txt-c pvxxl'>
+                                <h2>.NET</h2>
+                                <p>
+                                    Check for .NET Core and hard-coded
+                                    configuration files
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-md-8'>
+                        <div class='panel panel-basic bg-accent-1'>
+                            <div class='panel-body txt-c pvxxl'>
+                                <h2>Other</h2>
+                                <p>
+                                    Check for 12 Factor violations and other cloud readiness issues
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="spacer-100px"></div>
             </div>
+        </div>
+        <hr class='divider-alternate-2 mvn'>
+        <div class='bg-neutral-11'>
+            <hr class='divider-alternate-2 mvn'>
+            <ul class='list-vertical-divider txt-c mbn'>
+                <li class='col-md-6 phxl'>
+                    <div class='height-enforcer'>
+                        <h2>Cloud Ready</h2>
+                        <ul class="list-group">
+                            <li class="list-group-item small">No permanent disk access</li>
+                            <li class="list-group-item small">Self contained application</li>
+                            <li class="list-group-item small">Platform managed ports & networking</li>
+                            <li class="list-group-item small">Platform managed backing services</li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class='col-md-6 phxl'>
+                    <div class='height-enforcer'>
+                        <h2>Cloud Friendly</h2>
+                        <ul class="list-group">
+                            <li class="list-group-item small">12 factor app methodology</li>
+                            <li class="list-group-item small">Horizontally scalable</li>
+                            <li class="list-group-item small">Uses platform for high availability</li>
+                        </ul>
+
+                    </div>
+                </li>
+
+                <li class='col-md-6 phxl'>
+                    <div class='height-enforcer'>
+                        <h2>Cloud Resilient</h2>
+                        <ul class="list-group">
+                            <li class="list-group-item small">Fault tolerant and resilient design</li>
+                            <li class="list-group-item small">Cloud agnostic runtime</li>
+                            <li class="list-group-item small">Bundled metrics and monitoring</li>
+                            <li class="list-group-item small">Proactive failure testing</li>
+                        </ul>
+
+                    </div>
+                </li>
+                <li class='col-md-6 phxl'>
+                    <div class='height-enforcer'>
+                        <h2>Cloud Native</h2>
+                        <ul class="list-group">
+                            <li class="list-group-item small">Microservices Architecture</li>
+                            <li class="list-group-item small">API First Services Design</li>
+                        </ul>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
 {% endblock %}
