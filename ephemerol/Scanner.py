@@ -52,6 +52,8 @@ def java_file_scan(file_lines, filename):
         (rulebase['file_type'] == "java") & (rulebase['app_type'] == "java") & (rulebase['file_id'] == "*.java") & (
             rulebase['text_pattern'] != "NONE")]
     javarules.apply(text_pattern_search,axis=1, args=(filename,tuple(file_lines)))
+
+
 def c_sharp_file_scan(file_lines, filename):
     #TODO
     print(scan_results)

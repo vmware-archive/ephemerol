@@ -23,7 +23,7 @@ class test_Scanner(unittest.TestCase):
         #print(df)
         self.assertEqual(1, df[(df.refactor_rating == 3)].shape[0])
         self.assertEqual(5, df[(df.refactor_rating == 1)].shape[0])
-        self.assertEqual(7, df[(df.refactor_rating == 0)].shape[0])
+        self.assertEqual(11, df[(df.refactor_rating == 0)].shape[0])
         self.assertEqual(92, 100 - df.refactor_rating.cumsum().tail(1).item())
 
     def test_config_scan(self):
