@@ -9,7 +9,6 @@ class test_Scanner(unittest.TestCase):
         Scanner.load_rules(os.path.join("ephemerol", "test", "rulebase.csv"))
         rb = Scanner.rulebase
 
-
         self.assertEqual(66, rb[(rb.app_type == "java")].shape[0])
         self.assertEqual(1, rb[(rb.file_id == "persistence.xml")].shape[0])
         self.assertEqual(6, rb[(rb.refactor_rating == 3)].shape[0])

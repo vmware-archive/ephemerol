@@ -27,11 +27,11 @@ def config_scan(file_path_list):
                                      file_type=row['file_type'],
                                      refactor_rating=row['refactor_rating']))
 def source_scan(zfile):
-    for file in zfile.namelist():
-        if file.endswith('.java'):
-            java_file_scan(zfile.open(file).readlines(), file)
-        elif file.endswith('.xml'):
-            xml_file_scan(zfile.open(file).readlines(), file)
+    for fname in zfile.namelist():
+        if fname.endswith('.java'):
+            java_file_scan(zfile.open(fname).readlines(), fname)
+        elif fname.endswith('.xml'):
+            xml_file_scan(zfile.open(fname).readlines(), fname)
 
 
 def xml_file_scan(file_lines, filename):
@@ -51,22 +51,18 @@ def java_file_scan(file_lines, filename):
     javarules = rulebase.loc[
         (rulebase['file_type'] == "java") & (rulebase['app_type'] == "java") & (rulebase['file_id'] == "*.java") & (
             rulebase['text_pattern'] != "NONE")]
-    global scan_results
-
-    javarules.apply(text_pattern_search,axis=1, args={filename,tuple(file_lines)})
-    print(scan_results)
-
+    javarules.apply(text_pattern_search,axis=1, args=(filename,tuple(file_lines)))
 def c_sharp_file_scan(file_lines, filename):
     #TODO
     print(scan_results)
 
-def text_pattern_search(row, filename, file_lines):
-    for line in file_lines:
-        if row.text_pattern in line:
-            scan_results.append(ScanItem(file_name=filename,
-                                         file_category=row.file_category,
-                                         file_type=row.file_type,
-                                         refactor_rating=row.refactor_rating))
+def text_pattern_search(row, *args):
+    for line in args[1]:
+       if row.text_pattern in line:
+           scan_results.append(ScanItem(file_name=args[0],
+                                        file_category=row.file_category,
+                                        file_type=row.file_type,
+                                        refactor_rating=row.refactor_rating))
 
 def scan_archive(file_name):
     global scan_results

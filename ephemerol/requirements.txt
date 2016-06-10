@@ -1,6 +1,5 @@
 pytest
 mock
-terminaltables
 pandas
 werkzeug
 flask
