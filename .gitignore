@@ -2,14 +2,20 @@
 __pycache__/
 *.py[cod]
 *$py.class
+<<<<<<< HEAD
 *.pyc
+=======
+>>>>>>> origin/master
 
 # C extensions
 *.so
 
 # Distribution / packaging
 .Python
+<<<<<<< HEAD
 vendor/
+=======
+>>>>>>> origin/master
 env/
 build/
 develop-eggs/
@@ -91,5 +97,9 @@ ENV/
 .ropeproject
 
 # IntelliJ
+<<<<<<< HEAD
 .idea/
+=======
+.idea
+>>>>>>> origin/master
 *.iml
