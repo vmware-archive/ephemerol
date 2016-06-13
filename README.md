@@ -27,5 +27,3 @@ mkdir ./vendor
 pip install --no-use-wheel --download vendor -r requirements.txt
 cf push ephemerol -b python_buildpack -m 1G
 ```
-
-Then you can run all the tests with the `py.test` command at the root of the project.
