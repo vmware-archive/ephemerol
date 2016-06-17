@@ -1,6 +1,6 @@
 # ephemerol
 A Cloud Native readiness scanner that has configurable rules for Java, .NET and other cloud native application types.
-[![Build Status](https://travis-ci.org/Pivotal-Field-Engineering/ephemerol.svg?branch=master)](https://travis-ci.org/Pivotal-Field-Engineering/ephemerol)
+[![Build Status](https://travis-ci.org/Pivotal-Field-Engineering/ephemerol.png?branch=master)](https://travis-ci.org/Pivotal-Field-Engineering/ephemerol)
 
 ## Requirements
 Python 2.7.9
