@@ -25,5 +25,5 @@ py.test
 ```
 mkdir ./vendor
 pip install --no-use-wheel --download vendor -r requirements.txt
-cf push ephemerol -b python_buildpack -m 1G
+cf push
 ```
