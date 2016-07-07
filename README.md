@@ -3,8 +3,8 @@ A Cloud Native readiness scanner that has configurable rules for Java, .NET and 
 [![Build Status](https://travis-ci.org/Pivotal-Field-Engineering/ephemerol.png?branch=master)](https://travis-ci.org/Pivotal-Field-Engineering/ephemerol)
 
 Currently, ephemerol scans project source files in a zip file for the following languages:
-* [Java](../blob/master/docs/Java.MD)
-* [.NET Framework (not .NET Core)](../blob/master/docs/DotNet.MD)
+* [Java](../docs/Java.MD)
+* [.NET Framework (not .NET Core)](../docs/DotNet.MD)
 
 ## Requirements
 Python 2.7.9
