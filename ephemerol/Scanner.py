@@ -27,12 +27,19 @@ def config_scan(file_path_list):
                                      file_type=row['file_type'],
                                      refactor_rating=row['refactor_rating']))
 def source_scan(zfile):
+    fun_to_call = None
     for fname in zfile.namelist():
-        if fname.endswith('.java'):
-            java_file_scan(zfile.open(fname).readlines(), fname)
-        elif fname.endswith('.xml'):
-            xml_file_scan(zfile.open(fname).readlines(), fname)
+        fun_to_call = get_scan_func(fname)
+        if fun_to_call is not None:
+            fun_to_call(zfile.open(fname).readlines(), fname)
 
+def get_scan_func(fname):
+    if fname.endswith('.java'):
+        return java_file_scan
+    elif fname.endswith('.xml'):
+        return xml_file_scan
+    elif fname.endswith('.csproj'):
+        return csproj_file_scan
 
 def xml_file_scan(file_lines, filename):
     xmlrules = rulebase.loc[
@@ -53,6 +60,11 @@ def java_file_scan(file_lines, filename):
             rulebase['text_pattern'] != "NONE")]
     javarules.apply(text_pattern_search,axis=1, args=(filename,tuple(file_lines)))
 
+def csproj_file_scan(file_lines, filename):
+    dotnetrules = rulebase.loc[
+        (rulebase['file_type'] == "config") & (rulebase['app_type'] == "dotnet") & (rulebase['file_id'] == "*.csproj")
+    ]
+    dotnetrules.apply(text_pattern_search, axis=1, args=(filename, tuple(file_lines)))
 
 def c_sharp_file_scan(file_lines, filename):
     #TODO

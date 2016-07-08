@@ -15,7 +15,6 @@ Run the script as follows to get information on how to invoke it:
 ```
 pip install -r requirements.txt
 python ./ephemerol/ephemerol-web.py
-
 ```
 
 ### Testing
@@ -31,3 +30,5 @@ mkdir ./vendor
 pip install --no-use-wheel --download vendor -r requirements.txt
 cf push
 ```
+
+The push process will take a while because we're using pandas and numpy.  Go grab a coffee and you should come back to a running ephemerol.
