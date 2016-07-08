@@ -12,21 +12,21 @@ class test_Scanner(unittest.TestCase):
     def test_load_rules(self):
         rb = Scanner.rulebase
 
-        self.assertEqual(66, rb[(rb.app_type == "java")].shape[0])
+        self.assertEqual(67, rb[(rb.app_type == "java")].shape[0])
         self.assertEqual(1, rb[(rb.file_id == "persistence.xml")].shape[0])
         self.assertEqual(9, rb[(rb.refactor_rating == 3)].shape[0])
         self.assertEqual(1, rb[(rb.description == "JPA based ORM")].shape[0])
-        self.assertEqual(65, rb[(rb.file_type == "config")].shape[0])
+        self.assertEqual(66, rb[(rb.file_type == "config")].shape[0])
         self.assertEqual(6, rb[(rb.file_category == "Web Profile")].shape[0])
         self.assertEqual(1, rb[(rb.text_pattern == "import javax.ejb.")].shape[0])
 
     def test_java_scan(self):
         df = Scanner.scan_archive(os.path.join("ephemerol", "test", "SampleWebApp-master.zip"))
-        print(df)
+        #print(df)
         self.assertEqual(1, df[(df.refactor_rating == 3)].shape[0])
-        self.assertEqual(5, df[(df.refactor_rating == 1)].shape[0])
+        self.assertEqual(6, df[(df.refactor_rating == 1)].shape[0])
         self.assertEqual(11, df[(df.refactor_rating == 0)].shape[0])
-        self.assertEqual(92, 100 - df.refactor_rating.cumsum().tail(1).item())
+        self.assertEqual(91, 100 - df.refactor_rating.cumsum().tail(1).item())
 
     def test_config_scan(self):
         file_path_list = ['persistence.xml', 'web.xml', 'bing.xml', 'dir/dir/dir/ra.xml', '/dir/dir/ejb-jar.xml',
