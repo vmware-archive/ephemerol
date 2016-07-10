@@ -40,12 +40,19 @@ def config_scan(file_path_list):
 
 
 def source_scan(zfile):
+    fun_to_call = None
     for fname in zfile.namelist():
-        if fname.endswith('.java'):
-            java_file_scan(zfile.open(fname).readlines(), fname)
-        elif fname.endswith('.xml'):
-            xml_file_scan(zfile.open(fname).readlines(), fname)
+        fun_to_call = get_scan_func(fname)
+        if fun_to_call is not None:
+            fun_to_call(zfile.open(fname).readlines(), fname)
 
+def get_scan_func(fname):
+    if fname.endswith('.java'):
+        return java_file_scan
+    elif fname.endswith('.xml'):
+        return xml_file_scan
+    elif fname.endswith('.csproj'):
+        return csproj_file_scan
 
 def xml_file_scan(file_lines, filename):
     xmlrules = []
@@ -59,7 +66,6 @@ def xml_file_scan(file_lines, filename):
             if (rule.text_pattern in line):
                 scan_results.append(ScanResult(scan_item=rule, flagged_file_id=filename))
 
-
 def java_file_scan(file_lines, filename):
     javarules = []
     global scan_results
@@ -69,12 +75,24 @@ def java_file_scan(file_lines, filename):
                 and (rule.file_name == "*.java") \
                 and (rule.text_pattern != "NONE"):
             javarules.append(rule)
-
     for line in file_lines:
         for rule in javarules:
             if (rule.text_pattern in line):
                 scan_results.append(ScanResult(scan_item=rule, flagged_file_id=filename))
 
+def csproj_file_scan(file_lines, filename):
+    dotnetrules = []
+    global scan_results
+    for rule in rulebase:
+        if (rule.file_type == "config") \
+                and (rule.app_type == "dotnet") \
+                and (rule.file_name == "*.csproj") \
+                and (rule.text_pattern != "NONE"):
+            dotnetrules.append(rule)
+    for line in file_lines:
+        for rule in dotnetrules:
+            if (rule.text_pattern in line):
+                scan_results.append(ScanResult(scan_item=rule, flagged_file_id=filename))
 
 def scan_archive(file_name):
     global scan_results

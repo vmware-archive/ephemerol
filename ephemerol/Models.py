@@ -3,7 +3,7 @@ class ScanItem():
         self.app_type = app_type
         self.file_category = file_category
         self.file_type = file_type
-        self.refactor_rating = refactor_rating
+        self.refactor_rating = int(refactor_rating)
         self.file_name = file_name
         self.description = description
         self.text_pattern = text_pattern
