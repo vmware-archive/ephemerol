@@ -30,5 +30,3 @@ mkdir ./ephemerol/vendor
 pip install --no-use-wheel --download ./ephemerol/vendor -r requirements.txt
 cf push
 ```
-
-The push process will take a while because we're using pandas and numpy.  Go grab a coffee and you should come back to a running ephemerol.
