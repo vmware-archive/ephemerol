@@ -13,32 +13,39 @@
                     </li>
                 </ul>
             </div>
-            <table class="table table-data table-light table-scrollable table-scrollable-md">
-                <thead>
-                <tr>
-                    <th>File Category</th>
-                    <th>File Type</th>
-                    <th>Flagged File</th>
-                    <th>Description</th>
-                    <th>Refactor Rating</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for result in results[0] %}
-                    <tr id="link-with-tooltip-2" href="#" data-toggle="tooltip" data-placement="right"
-                        title="{{ result.flagged_file_id }}">
-                        <td>{{ result.scan_item.file_category }}
-                        </td>
-                        <td>{{ result.scan_item.file_type }}</td>
-                        <td>{{ result.flagged_file_id.split('/')[-1] }}
-                        </td>
-                        <td>{{ result.scan_item.description }}</td>
-                        <td>{{ result.scan_item.refactor_rating }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+            <div class="table-scrollable table-scrollable-md">
+                <div class="table-scrollable-header">
+                    <table class="table table-data table-light">
+                        <thead>
+                        <tr>
+                            <th>File Category</th>
+                            <th>File Type</th>
+                            <th>Flagged File</th>
+                            <th>Description</th>
+                            <th>Refactor Rating</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="table-scrollable-body">
+                    <table class="table table-data table-striped">
+                        <tbody>
+                        {% for result in results[0] %}
+                            <tr id="link-with-tooltip-2" href="#" data-toggle="tooltip" data-placement="right"
+                                title="{{ result.flagged_file_id }}">
+                                <td>{{ result.scan_item.file_category }}
+                                </td>
+                                <td>{{ result.scan_item.file_type }}</td>
+                                <td>{{ result.flagged_file_id.split('/')[-1] }}
+                                </td>
+                                <td>{{ result.scan_item.description }}</td>
+                                <td>{{ result.scan_item.refactor_rating }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-    </div>
-    <hr class='divider-alternate-2 mvn'>
+        <hr class='divider-alternate-2 mvn'>
 {% endblock %}
