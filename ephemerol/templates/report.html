@@ -25,10 +25,13 @@
                 </thead>
                 <tbody>
                 {% for result in results[0] %}
-                    <tr>
-                        <td>{{ result.scan_item.file_category }}</td>
+                    <tr id="link-with-tooltip-2" href="#" data-toggle="tooltip" data-placement="right"
+                        title="{{ result.flagged_file_id }}">
+                        <td>{{ result.scan_item.file_category }}
+                        </td>
                         <td>{{ result.scan_item.file_type }}</td>
-                        <td>{{ result.flagged_file_id }}</td>
+                        <td>{{ result.flagged_file_id.split('/')[-1] }}
+                        </td>
                         <td>{{ result.scan_item.description }}</td>
                         <td>{{ result.scan_item.refactor_rating }}</td>
                     </tr>
