@@ -9,11 +9,32 @@
                     </li>
                     <li class="pull-right">
                         <h3>Cloud Readiness Index:
-                            <strong>{{ 100 - results.refactor_rating.cumsum().tail(1).item() }}</strong></h3>
+                            <strong>{{ results[1].cloud_readiness_index }}</strong>
                     </li>
                 </ul>
             </div>
-            {{ results.to_html(classes="table table-data table-light table-scrollable table-scrollable-md") | safe }}
+            <table class="table table-data table-light table-scrollable table-scrollable-md">
+                <thead>
+                <tr>
+                    <th>File Category</th>
+                    <th>File Type</th>
+                    <th>Flagged File</th>
+                    <th>Description</th>
+                    <th>Refactor Rating</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for result in results[0] %}
+                    <tr>
+                        <td>{{ result.scan_item.file_category }}</td>
+                        <td>{{ result.scan_item.file_type }}</td>
+                        <td>{{ result.flagged_file_id }}</td>
+                        <td>{{ result.scan_item.description }}</td>
+                        <td>{{ result.scan_item.refactor_rating }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
     <hr class='divider-alternate-2 mvn'>

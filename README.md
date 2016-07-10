@@ -27,7 +27,7 @@ py.test
 
 ## Deploy to Cloud Foundry
 ```
-mkdir ./vendor
-pip install --no-use-wheel --download vendor -r requirements.txt
+mkdir ./ephemerol/vendor
+pip install --no-use-wheel --download ./ephemerol/vendor -r requirements.txt
 cf push
 ```

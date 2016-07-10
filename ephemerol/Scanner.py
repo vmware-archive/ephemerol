@@ -1,31 +1,44 @@
 from zipfile import ZipFile
-import pandas as pd
-from Models import ScanItem
+from Models import ScanItem, ScanResult, ScanStats
+import csv
 
-rulebase = pd.DataFrame.empty
+rulebase = []
 scan_results = []
+
 
 def load_rules(rules_csv):
     global rulebase
-    rulebase = pd.read_csv(rules_csv)
+    rulebase = []
+    with open(rules_csv, 'rU') as csvfile:
+        rulereader = csv.DictReader(csvfile, delimiter=',')
+        for row in rulereader:
+            rulebase.append(ScanItem(app_type=row['app_type'],
+                                 file_type=row['file_type'],
+                                 file_category=row['file_category'],
+                                 file_name=row['file_name'],
+                                 refactor_rating=row['refactor_rating'],
+                                 description=row['description'],
+                                 text_pattern=row['text_pattern']
+                                 ))
+
 
 def config_scan(file_path_list):
-    configrules = rulebase.loc[(rulebase['file_type'] == "config") & (rulebase['app_type'] == "java")]
+    configrules = []
     global scan_results
 
-    file_names = []
+    for rule in rulebase:
+        if (rule.file_type == "config") and (rule.app_type == "java"):
+            configrules.append(rule)
+
     for path in file_path_list:
         if path.endswith('/'):
             path = path[:-1]
-        file_names.append(path.split('/')[-1])
+        file_name = path.split('/')[-1]
+        for configrule in configrules:
+            if file_name == configrule.file_name:
+                scan_results.append(ScanResult(scan_item=configrule, flagged_file_id=file_name))
 
-    config_matches = configrules.loc[configrules['file_id'].isin(file_names)]
 
-    for index, row in config_matches.iterrows():
-        scan_results.append(ScanItem(file_name=row['file_id'],
-                                     file_category=row['file_category'],
-                                     file_type=row['file_type'],
-                                     refactor_rating=row['refactor_rating']))
 def source_scan(zfile):
     for fname in zfile.namelist():
         if fname.endswith('.java'):
@@ -35,36 +48,33 @@ def source_scan(zfile):
 
 
 def xml_file_scan(file_lines, filename):
-    xmlrules = rulebase.loc[
-        (rulebase['file_type'] == "config") & (rulebase['file_id'] == "*.xml") & (
-            rulebase['text_pattern'] != "NONE")]
+    xmlrules = []
     global scan_results
-    xml_matches = xmlrules.loc[xmlrules['text_pattern'].isin(file_lines)]
+    for rule in rulebase:
+        if (rule.file_type == "config") and (rule.file_name == "*.xml") and (rule.text_pattern != "NONE"):
+            xmlrules.append(rule)
 
-    for index, row in xml_matches.iterrows():
-        scan_results.append(ScanItem(file_name=file,
-                                     file_category=row['file_category'],
-                                     file_type=row['file_type'],
-                                     refactor_rating=row['refactor_rating']))
+    for line in file_lines:
+        for rule in xmlrules:
+            if (rule.text_pattern in line):
+                scan_results.append(ScanResult(scan_item=rule, flagged_file_id=filename))
+
 
 def java_file_scan(file_lines, filename):
-    javarules = rulebase.loc[
-        (rulebase['file_type'] == "java") & (rulebase['app_type'] == "java") & (rulebase['file_id'] == "*.java") & (
-            rulebase['text_pattern'] != "NONE")]
-    javarules.apply(text_pattern_search,axis=1, args=(filename,tuple(file_lines)))
+    javarules = []
+    global scan_results
+    for rule in rulebase:
+        if (rule.file_type == "java") \
+                and (rule.app_type == "java") \
+                and (rule.file_name == "*.java") \
+                and (rule.text_pattern != "NONE"):
+            javarules.append(rule)
 
+    for line in file_lines:
+        for rule in javarules:
+            if (rule.text_pattern in line):
+                scan_results.append(ScanResult(scan_item=rule, flagged_file_id=filename))
 
-def c_sharp_file_scan(file_lines, filename):
-    #TODO
-    print(scan_results)
-
-def text_pattern_search(row, *args):
-    for line in args[1]:
-       if row.text_pattern in line:
-           scan_results.append(ScanItem(file_name=args[0],
-                                        file_category=row.file_category,
-                                        file_type=row.file_type,
-                                        refactor_rating=row.refactor_rating))
 
 def scan_archive(file_name):
     global scan_results
@@ -73,9 +83,4 @@ def scan_archive(file_name):
         config_scan(zfile.namelist())
         source_scan(zfile)
 
-    resultsSet = set(scan_results)
-    resultsDictList = []
-    for sr in resultsSet:
-        resultsDictList.append(sr.__dict__)
-    pd.set_option('display.max_colwidth', -1)
-    return pd.DataFrame(resultsDictList)
+    return scan_results, ScanStats(scan_results)
