@@ -124,6 +124,55 @@ class TestScanner(unittest.TestCase):
         results = Scanner.scan_results
         self.assertEqual(0, len(results))
 
+    def test_scan_for_oledb_use(self):
+        """Found .cs file with \"using System.Data.OleDb\'"""
+        Scanner.cs_file_scan(['using System.Data.OleDb;'], 'Repository.cs')
+        results = Scanner.scan_results
+        self.assertEqual(1, len(results))
+
+    def test_scan_for_obdc_use(self):
+        """Found .cs file with \"using System.Data.Obdc\'"""
+        Scanner.cs_file_scan(['using System.Data.Odbc;'], 'Repository.cs')
+        results = Scanner.scan_results
+        self.assertEqual(1, len(results))
+
+    def test_scan_for_ado_net_use(self):
+        """Found .cs file with \"using System.Data\'"""
+        Scanner.cs_file_scan(['using System.Data;'], 'Repository.cs')
+        results = Scanner.scan_results
+        self.assertEqual(1, len(results))
+
+    def test_scan_double_hit_for_ado_net_and_odbc_use(self):
+        """Found .cs file with \"using System.Data\'" and \"using System.Data.Odbc\'"""
+        Scanner.cs_file_scan(['using System.Data;', 'using System.Data.Odbc;'], 'Repository.cs')
+        results = Scanner.scan_results
+        self.assertEqual(2, len(results))
+
+    def test_scan_for_ef_use(self):
+        """Found .cs file with \"using System.Data.Entity\'"""
+        Scanner.cs_file_scan(['using System.Data;', 'using System.Data.Odbc;'], 'Repository.cs')
+        results = Scanner.scan_results
+        self.assertEqual(2, len(results))
+
+    def test_scan_for_file_write(self):
+        """Found .cs file with call to File.WriteAllText"""
+        Scanner.cs_file_scan(['File.WriteAllText("foo.bar", "Some Text");'], 'FileWrite.cs')
+        results = Scanner.scan_results
+        self.assertEqual(1, len(results))
+
+    def test_scan_for_file_open(self):
+        """Found .cs file with call to File.Open"""
+        Scanner.cs_file_scan(
+            ['        using (FileStream fs = File.Open(path, FileMode.Open, FileAccess.Write, FileShare.None))'],
+            'FileWrite.cs')
+        results = Scanner.scan_results
+        self.assertEqual(1, len(results))
+
+    def test_scan_for_filesystem_watcher(self):
+        """Found .cs file with call to File.WriteAllText"""
+        Scanner.cs_file_scan(['        FileSystemWatcher watcher = new FileSystemWatcher();'], 'FileWrite.cs')
+        results = Scanner.scan_results
+        self.assertEqual(1, len(results))
 
 if __name__ == '__main__':
     unittest.main()
