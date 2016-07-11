@@ -1,22 +1,32 @@
 from __future__ import print_function
+
 import os
 import unittest
 
 from ephemerol import Scanner
 
-class test_Scanner(unittest.TestCase):
+
+class TestScanner(unittest.TestCase):
+    TEST_RULE_FILE = os.path.join("ephemerol", "test", "rulebase.csv")
+
     def setUp(self):
-        Scanner.load_rules(os.path.join("ephemerol", "test", "rulebase.csv"))
+        Scanner.load_rules(self.TEST_RULE_FILE)
         Scanner.scan_results = []
 
     def test_load_rules(self):
+        rulecount = -1  # start with -1 to exclude header row from count
+        total_refactor = 0
+        with open(self.TEST_RULE_FILE, 'rU') as f:
+            for line in f:
+                rulecount += 1
+                if rulecount != 0:
+                    total_refactor += int([field for field in line.split(',')][4])
         results = Scanner.rulebase
-        self.assertEqual(78, len(results))
-        self.assertEqual(80, sum([int(entry.refactor_rating) for entry in results]))
+        self.assertEqual(rulecount, len(results))
+        self.assertEqual(total_refactor, sum([int(entry.refactor_rating) for entry in results]))
 
     def test_archive_scan(self):
         results_stats = Scanner.scan_archive(os.path.join("ephemerol", "test", "SampleWebApp-master.zip"))
-        results = results_stats[0]
         stats = results_stats[1]
         self.assertEqual(90, stats.cloud_readiness_index)
 
@@ -73,6 +83,47 @@ class test_Scanner(unittest.TestCase):
         Scanner.csproj_file_scan(['    <NoFrameworkVersion></NoFrameworkVersion>'], "testfile.csproj")
         results = Scanner.scan_results
         self.assertEqual(0, len(results))
+
+    def test_scan_for_servicebase_extension(self):
+        """Found .cs file with class extending ServiceBase"""
+        Scanner.cs_file_scan(['using System.ServiceProcess;',
+                              'using System.Text;',
+                              'using System.Threading.Tasks;',
+                              'namespace WindowsService1',
+                              '{',
+                              '    public partial class Service1 : ServiceBase',
+                              '    {'],
+                             'Service1.cs')
+        results = Scanner.scan_results
+        self.assertEqual(1, len(results))
+        self.assertEqual(20, results[0].scan_item.refactor_rating)
+
+    def test_scan_for_no_extension(self):
+        """Found .cs file with class not extending anything"""
+        Scanner.cs_file_scan(['using System.ServiceProcess;',
+                              'using System.Text;',
+                              'using System.Threading.Tasks;',
+                              'namespace WindowsService1',
+                              '{',
+                              '    public partial class Service1',
+                              '    {'],
+                             'Service1.cs')
+        results = Scanner.scan_results
+        self.assertEqual(0, len(results))
+
+    def test_scan_for_extension_but_not_servicebase(self):
+        """Found .cs file with class extending FooBar"""
+        Scanner.cs_file_scan(['using System.ServiceProcess;',
+                              'using System.Text;',
+                              'using System.Threading.Tasks;',
+                              'namespace WindowsService1',
+                              '{',
+                              '    public partial class Service1 : FooBar',
+                              '    {'],
+                             'Service1.cs')
+        results = Scanner.scan_results
+        self.assertEqual(0, len(results))
+
 
 if __name__ == '__main__':
     unittest.main()

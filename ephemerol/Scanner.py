@@ -1,6 +1,7 @@
-from zipfile import ZipFile
-from Models import ScanItem, ScanResult, ScanStats
 import csv
+from zipfile import ZipFile
+
+from Models import ScanItem, ScanResult, ScanStats
 
 rulebase = []
 scan_results = []
@@ -13,13 +14,13 @@ def load_rules(rules_csv):
         rulereader = csv.DictReader(csvfile, delimiter=',')
         for row in rulereader:
             rulebase.append(ScanItem(app_type=row['app_type'],
-                                 file_type=row['file_type'],
-                                 file_category=row['file_category'],
-                                 file_name=row['file_name'],
-                                 refactor_rating=row['refactor_rating'],
-                                 description=row['description'],
-                                 text_pattern=row['text_pattern']
-                                 ))
+                                     file_type=row['file_type'],
+                                     file_category=row['file_category'],
+                                     file_name=row['file_name'],
+                                     refactor_rating=row['refactor_rating'],
+                                     description=row['description'],
+                                     text_pattern=row['text_pattern']
+                                     ))
 
 
 def config_scan(file_path_list):
@@ -40,11 +41,11 @@ def config_scan(file_path_list):
 
 
 def source_scan(zfile):
-    fun_to_call = None
     for fname in zfile.namelist():
         fun_to_call = get_scan_func(fname)
         if fun_to_call is not None:
             fun_to_call(zfile.open(fname).readlines(), fname)
+
 
 def get_scan_func(fname):
     if fname.endswith('.java'):
@@ -53,6 +54,9 @@ def get_scan_func(fname):
         return xml_file_scan
     elif fname.endswith('.csproj'):
         return csproj_file_scan
+    elif fname.endswith('.cs'):
+        return cs_file_scan
+
 
 def xml_file_scan(file_lines, filename):
     xmlrules = []
@@ -63,8 +67,9 @@ def xml_file_scan(file_lines, filename):
 
     for line in file_lines:
         for rule in xmlrules:
-            if (rule.text_pattern in line):
+            if rule.text_pattern in line:
                 scan_results.append(ScanResult(scan_item=rule, flagged_file_id=filename))
+
 
 def java_file_scan(file_lines, filename):
     javarules = []
@@ -77,8 +82,9 @@ def java_file_scan(file_lines, filename):
             javarules.append(rule)
     for line in file_lines:
         for rule in javarules:
-            if (rule.text_pattern in line):
+            if rule.text_pattern in line:
                 scan_results.append(ScanResult(scan_item=rule, flagged_file_id=filename))
+
 
 def csproj_file_scan(file_lines, filename):
     dotnetrules = []
@@ -91,8 +97,24 @@ def csproj_file_scan(file_lines, filename):
             dotnetrules.append(rule)
     for line in file_lines:
         for rule in dotnetrules:
-            if (rule.text_pattern in line):
+            if rule.text_pattern in line:
                 scan_results.append(ScanResult(scan_item=rule, flagged_file_id=filename))
+
+
+def cs_file_scan(file_lines, filename):
+    cs_file_rules = []
+    global scan_results
+    for rule in rulebase:
+        if (rule.file_type == "csharp") \
+                and (rule.app_type == "dotnet") \
+                and (rule.file_name == "*.cs") \
+                and (rule.text_pattern != "NONE"):
+            cs_file_rules.append(rule)
+    for line in file_lines:
+        for rule in cs_file_rules:
+            if rule.text_pattern in line:
+                scan_results.append(ScanResult(scan_item=rule, flagged_file_id=filename))
+
 
 def scan_archive(file_name):
     global scan_results
