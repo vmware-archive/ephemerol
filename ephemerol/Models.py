@@ -3,7 +3,7 @@ class ScanItem():
         self.app_type = app_type
         self.file_category = file_category
         self.file_type = file_type
-        self.refactor_rating = int(refactor_rating)
+        self.refactor_rating = float(refactor_rating)
         self.file_name = file_name
         self.description = description
         self.text_pattern = text_pattern
@@ -51,5 +51,5 @@ class ScanStats():
         self.scan_result_list = scan_result_list
         score = 100
         for entry in self.scan_result_list:
-            score = score - int(entry.scan_item.refactor_rating)
+            score = score - float(entry.scan_item.refactor_rating)
         self.cloud_readiness_index = score
