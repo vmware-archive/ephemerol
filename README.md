@@ -30,3 +30,13 @@ mkdir ./ephemerol/vendor
 pip install --no-use-wheel --download ./ephemerol/vendor -r requirements.txt
 cf push
 ```
+
+## Project Core Team
+#### [Chris Delashmutt - Pivotal - Project Lead](https://github.com/cdelashmutt-pivotal)
+#### [James Williams - Pivotal - Committer](https://github.com/jwilliams-pivotal)
+#### [Matt Cowger - EMC - Committer](https://github.com/mcowger)
+
+## Project Contributors
+#### [John Feminella - Pivotal](https://github.com/fj)
+#### Dieter Flick - Pivotal
+
