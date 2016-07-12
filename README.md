@@ -32,11 +32,11 @@ cf push
 ```
 
 ## Project Core Team
-[Chris Delashmutt - Pivotal - Project Lead](https://github.com/cdelashmutt-pivotal)
-[James Williams - Pivotal - Committer](https://github.com/jwilliams-pivotal)
-[Matt Cowger - EMC - Committer](https://github.com/mcowger)
+#### [Chris Delashmutt - Pivotal - Project Lead](https://github.com/cdelashmutt-pivotal)
+#### [James Williams - Pivotal - Committer](https://github.com/jwilliams-pivotal)
+#### [Matt Cowger - EMC - Committer](https://github.com/mcowger)
 
 ## Project Contributors
-[John Feminella - Pivotal](https://github.com/fj)
-Dieter Flick - Pivotal
+#### [John Feminella - Pivotal](https://github.com/fj)
+#### Dieter Flick - Pivotal
 
