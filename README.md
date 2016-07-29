@@ -34,9 +34,14 @@ cf push
 ## Project Core Team
 #### [Chris Delashmutt/Pivotal - Project Lead](https://github.com/cdelashmutt-pivotal)
 #### [James Williams/Pivotal - Committer](https://github.com/jwilliams-pivotal)
-#### [Matt Cowger/EMC - Committer](https://github.com/mcowger)
 
 ## Project Contributors
 #### [John Feminella/Pivotal](https://github.com/fj)
+Early adopter. Suggested we move to open source the project.
+
 #### Dieter Flick/Pivotal
+Early adopter. Provided excellent feedback on the cloud readiness index scoring algorithm.
+
+#### [Matt Cowger/EMC](https://github.com/mcowger)
+Requested that we remove pandas to reduce dependency overhead. This was an excellent idea.
 

@@ -1,0 +1,4 @@
+self.assertEqual(rulecount, len(results))
+self.assertEqual(total_refactor, sum([int(entry.refactor_rating) for entry in results]))
+self.assertEqual(90, stats.cloud_readiness_index)
+self.assertEqual(5, len(results))
