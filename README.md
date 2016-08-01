@@ -21,7 +21,10 @@ python ./ephemerol/ephemerol-web.py
 To run tests, make sure to install dependencies, then you can run all the tests with the `py.test` command at the root of the project.
 ```
 pip install -r requirements.txt
+# Then one of the following
 py.test
+# or
+python -m pytest
 ```
 
 ## Deploy to Cloud Foundry
