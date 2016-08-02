@@ -4,6 +4,7 @@ import os
 import unittest
 
 from ephemerol import Scanner
+from ephemerol.Models import ScanStats
 
 
 class TestScanner(unittest.TestCase):
@@ -26,9 +27,10 @@ class TestScanner(unittest.TestCase):
         self.assertEqual(total_refactor, sum([int(entry.refactor_rating) for entry in results]))
 
     def test_archive_scan(self):
+        """Verify cloud readiness index for SampleWebApp-master.zip and rulebase.csv"""
         results_stats = Scanner.scan_archive(os.path.join("ephemerol", "test", "SampleWebApp-master.zip"))
         stats = results_stats[1]
-        self.assertEqual(90, stats.cloud_readiness_index)
+        self.assertEqual(97.44, stats.cloud_readiness_index)
 
     def test_config_scan(self):
         file_path_list = ['persistence.xml', 'web.xml', 'bing.xml', 'dir/dir/dir/ra.xml', '/dir/dir/ejb-jar.xml',
@@ -173,6 +175,28 @@ class TestScanner(unittest.TestCase):
         Scanner.cs_file_scan(['        FileSystemWatcher watcher = new FileSystemWatcher();'], 'FileWrite.cs')
         results = Scanner.scan_results
         self.assertEqual(1, len(results))
+
+    def test_cloud_readiness_index_algorithm(self):
+        """make sure no scan results to 20 to 220 show consistent readiness index"""
+        scan_stats = ScanStats(Scanner.scan_results)
+        self.assertEqual(0, len(scan_stats.scan_result_list))
+        self.assertEqual(100, scan_stats.cloud_readiness_index)
+
+        for counter in range(0, 10):
+            Scanner.java_file_scan(['import javax.ejb.'], 'BadPojo.java')
+            Scanner.java_file_scan(['import org.springframework.'], 'GoodPojo.java')
+
+        scan_stats = ScanStats(Scanner.scan_results)
+        self.assertEqual(20, len(scan_stats.scan_result_list))
+        self.assertEqual(85, scan_stats.cloud_readiness_index)
+
+        for counter in range(0, 100):
+            Scanner.java_file_scan(['import javax.ejb.'], 'BadPojo.java')
+            Scanner.java_file_scan(['import org.springframework.'], 'GoodPojo.java')
+            scan_stats = ScanStats(Scanner.scan_results)
+
+        self.assertEqual(220, len(scan_stats.scan_result_list))
+        self.assertEqual(85, scan_stats.cloud_readiness_index)
 
 if __name__ == '__main__':
     unittest.main()

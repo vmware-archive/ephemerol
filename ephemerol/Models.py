@@ -49,7 +49,10 @@ class ScanResult():
 class ScanStats():
     def __init__(self, scan_result_list):
         self.scan_result_list = scan_result_list
-        score = 100
+        score = 1000
         for entry in self.scan_result_list:
-            score = score - float(entry.scan_item.refactor_rating)
-        self.cloud_readiness_index = score
+            scan_result_cnt = len(scan_result_list)
+            result_count_adj = float(100.00 / scan_result_cnt)
+            score = score - float(result_count_adj * entry.scan_item.refactor_rating)
+
+        self.cloud_readiness_index = round((score / 1000 * 100),2)
