@@ -18,9 +18,10 @@ import Scanner
 import sys
 import logging
 import os
+import tempfile
 
 ALLOWED_EXTENSIONS = set(['zip', 'csv'])
-UPLOAD_FOLDER = '/tmp'
+UPLOAD_FOLDER = tempfile.gettempdir()
 
 app = Flask(__name__)
 app.secret_key = 'some_secret'
@@ -59,6 +60,9 @@ def upload_rules():
 
     try:
         if request.form.get('submitbtn') == 'zip_scan':
+            if not os.path.exists(app.config['UPLOAD_FOLDER']):
+                os.makedirs(app.config['UPLOAD_FOLDER'])
+
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
             results = Scanner.scan_archive(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
             return render_template('report.html', results=results, filename=file.filename)
