@@ -48,14 +48,20 @@ def upload_rules():
         flash('Invalid File Upload Attempt')
         return render_template('index.html')
 
+    upload_type = request.form.get('submitbtn')
     try:
-        if request.form.get('submitbtn') == 'csv_load':
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-            Scanner.load_rules(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-            flash('CSV Scan Rules Loaded')
+        if upload_type == 'csv_load' or upload_type == 'yaml_load':
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            file.save(file_path)
+            if upload_type == 'csv_load':
+                Scanner.load_rules(file_path)
+                flash('CSV Scan Rules Loaded')
+            elif upload_type == 'yaml_load':
+                Scanner.load_yaml_rules(file_path)
+                flash('YAML Scan Rules Loaded')
             return render_template('index.html')
     except:
-        flash('CSV Rules Load Failed. Check Rules CSV file.' + str(sys.exc_info()))
+        flash('Rules Load Failed. Check Rules file.' + str(sys.exc_info()))
         return render_template('index.html')
 
     try:

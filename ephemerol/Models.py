@@ -14,19 +14,21 @@
 # limitations under the License.
 
 class ScanItem():
-    def __init__(self, app_type, file_category, file_type, file_name, refactor_rating, description, text_pattern):
+    def __init__(self, app_type, file_category, file_type, file_name, refactor_rating, description, text_pattern
+                 , replatform_advice=None):
         self.app_type = app_type
         self.file_category = file_category
         self.file_type = file_type
-        self.refactor_rating = float(refactor_rating)
+        self.refactor_rating = float(refactor_rating) if refactor_rating is not None else float(0)
         self.file_name = file_name
         self.description = description
         self.text_pattern = text_pattern
+        self.replatform_advice = replatform_advice
 
     def __key(self):
         return (
-        self.app_type, self.file_category, self.file_type, self.refactor_rating, self.file_name, self.description,
-        self.text_pattern)
+            self.app_type, self.file_category, self.file_type, self.refactor_rating, self.file_name, self.description,
+            self.text_pattern, self.replatform_advice)
 
     def __eq__(x, y):
         return x.__key() == y.__key()

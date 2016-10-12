@@ -16,6 +16,8 @@
 import csv
 from zipfile import ZipFile
 
+import yaml
+
 from Models import ScanItem, ScanResult, ScanStats
 
 rulebase = []
@@ -23,12 +25,12 @@ scan_results = []
 
 
 def load_rules(rules_csv):
-    global rulebase
-    rulebase = []
+
+    rules = []
     with open(rules_csv, 'rU') as csvfile:
         rulereader = csv.DictReader(csvfile, delimiter=',')
         for row in rulereader:
-            rulebase.append(ScanItem(app_type=row['app_type'],
+            rules.append(ScanItem(app_type=row['app_type'],
                                      file_type=row['file_type'],
                                      file_category=row['file_category'],
                                      file_name=row['file_name'],
@@ -36,7 +38,108 @@ def load_rules(rules_csv):
                                      description=row['description'],
                                      text_pattern=row['text_pattern']
                                      ))
+    set_rulebase(rules)
 
+
+def load_yaml_rules(yaml_stream):
+    rules = []
+
+    yaml_rules = yaml.load(yaml_stream)
+
+    for rule in yaml_rules:
+        app_type = rule.get('app_type')
+        category = rule.get('category')
+        file_type = rule.get('file_type')
+        file_pattern = rule.get("file_pattern")
+        refactor_rating = rule.get('refactor_rating')
+        description = rule.get('description')
+        replatform_advice = rule.get('replatform_advice')
+        if file_pattern is not None:
+            text_patterns = rule.get("text_patterns")
+            if text_patterns is not None:
+                for text_pattern in text_patterns:
+                    # Text patterns can have overrides, so we have to account for that
+                    override_refactor_rating = refactor_rating
+                    override_description = description
+                    override_replatform_advice = replatform_advice
+                    text_pattern_key = text_pattern
+                    if not isinstance(text_pattern, basestring):
+                        text_pattern_key = text_pattern.keys()[0]
+                        pattern_override_map = text_pattern[text_pattern.keys()[0]]
+                        if 'refactor_rating' in pattern_override_map:
+                            override_refactor_rating = pattern_override_map.get('refactor_rating')
+                        if 'description' in pattern_override_map:
+                            override_description = pattern_override_map.get('description')
+                        if 'replatform_advice' in pattern_override_map:
+                            override_replatform_advice = pattern_override_map.get('replatform_advice')
+
+                    rules.append(
+                        ScanItem(app_type, category, file_type, file_pattern, override_refactor_rating,
+                                 override_description, text_pattern_key, override_replatform_advice)
+                    )
+            else:
+                rules.append(
+                    ScanItem(app_type, category, file_type, file_pattern, refactor_rating, description, None,
+                             replatform_advice)
+                )
+
+        elif rule.get("files") is not None:
+            text_patterns = rule.get("text_patterns")
+            for file_item in rule.get("files"):
+                # Files can have overrides, so we have to account for that
+                file_override_refactor_rating = refactor_rating
+                file_override_description = description
+                file_override_replatform_advice = replatform_advice
+                file_item_key = file_item
+                if not isinstance(file_item, basestring):
+                    file_item_key = file_item.keys()[0]
+                    file_override_map = file_item[file_item.keys()[0]]
+                    if 'refactor_rating' in file_override_map:
+                        file_override_refactor_rating = file_override_map.get('refactor_rating')
+                    if 'description' in file_override_map:
+                        file_override_description = file_override_map.get('description')
+                    if 'replatform_advice' in file_override_map:
+                        file_override_replatform_advice = file_override_map.get('replatform_advice')
+
+                if text_patterns is None:
+                    rules.append(
+                        ScanItem(app_type, category, file_type, file_item_key, file_override_refactor_rating,
+                                 file_override_description, None, file_override_replatform_advice)
+                    )
+
+                else:
+                    for text_pattern in text_patterns:
+                        # Text patterns can have overrides, so we have to account for that
+                        # We'll use the file_override data because at this point it will have
+                        # either the overriden data from a file entry, or the original rule data
+                        pattern_override_refactor_rating = file_override_refactor_rating
+                        pattern_override_description = file_override_description
+                        pattern_override_replatform_advice = file_override_replatform_advice
+                        text_pattern_key = text_pattern
+                        if not isinstance(text_pattern, basestring):
+                            text_pattern_key = text_pattern.keys()[0]
+                            pattern_override_map = text_pattern[text_pattern.keys()[0]]
+                            if 'refactor_rating' in pattern_override_map:
+                                pattern_override_refactor_rating = pattern_override_map.get('refactor_rating')
+                            if 'description' in pattern_override_map:
+                                pattern_override_description = pattern_override_map.get('description')
+                            if 'replatform_advice' in pattern_override_map:
+                                pattern_override_replatform_advice = pattern_override_map.get('replatform_advice')
+
+                        rules.append(
+                            ScanItem(app_type, category, file_type, file_item_key, pattern_override_refactor_rating,
+                                     pattern_override_description, text_pattern_key, pattern_override_replatform_advice)
+                        )
+
+        else:
+            raise RuntimeError("Error parsing rule.  No file_pattern value or files array specified.", rule)
+
+    set_rulebase(rules)
+
+
+def set_rulebase(rules):
+    global rulebase
+    rulebase = rules
 
 def config_scan(file_path_list):
     configrules = []

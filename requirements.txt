@@ -2,3 +2,4 @@ pytest
 mock
 werkzeug
 flask
+PyYAML
