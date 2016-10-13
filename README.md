@@ -34,6 +34,24 @@ pip install --no-use-wheel --download ./ephemerol/vendor -r requirements.txt
 cf push
 ```
 
+## GUI Development [IN PROGRESS - NOT ENABLED YET]
+* The project is now Angular v2 based, which means you will need node.js and NPM to modify the UI. A quickstart guide can be found: https://angular.io/docs/ts/latest/quickstart.html.
+* Angular-cli is a relatively new tool. We used this tool to scaffold our angular code - https://github.com/angular/angular-cli
+* While modifying the GUI for development, you may want to "Live Code Edit Angular". Flask renders distributed angular files.
+* Before pushing to PCF, you will want to "Generate Angular Distribution"
+
+### Live Code Edit Angular (using angular-cli) [IN PROGRESS - NOT ENABLED YET]
+```
+cd ./ephemerol/ephemoral/angular2
+ng serve
+```
+
+### Generate Angular Distribution (using angular-cli) [IN PROGRESS - NOT ENABLED YET]
+```
+cd ./ephemerol/ephemoral/angular2
+ng build --prod
+```
+
 ## Project Core Team
 #### [Chris Delashmutt/Pivotal - Project Lead](https://github.com/cdelashmutt-pivotal)
 #### [James Williams/Pivotal - Committer](https://github.com/jwilliams-pivotal)
