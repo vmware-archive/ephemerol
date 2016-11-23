@@ -23,7 +23,12 @@ from ephemerol.Models import ScanStats
 
 
 class TestScanner(unittest.TestCase):
-    TEST_RULE_FILE = os.path.join("ephemerol", "test", "rulebase.csv")
+    TEST_RULE_FILE = "rulebase.csv"
+
+    def __init__(self, *args, **kwargs):
+        super(TestScanner, self).__init__(*args, **kwargs)
+        if not os.path.isfile(TestScanner.TEST_RULE_FILE):
+            TestScanner.TEST_RULE_FILE = os.path.join("ephemerol", "test", TestScanner.TEST_RULE_FILE)
 
     def setUp(self):
         Scanner.load_rules(self.TEST_RULE_FILE)
@@ -43,7 +48,10 @@ class TestScanner(unittest.TestCase):
 
     def test_archive_scan(self):
         """Verify cloud readiness index for SampleWebApp-master.zip and rulebase.csv"""
-        results_stats = Scanner.scan_archive(os.path.join("ephemerol", "test", "SampleWebApp-master.zip"))
+        archive = "SampleWebApp-master.zip"
+        if not os.path.isfile(archive):
+            archive = os.path.join("ephemerol", "test", archive)
+        results_stats = Scanner.scan_archive(archive)
         stats = results_stats[1]
         self.assertEqual(97.44, stats.cloud_readiness_index)
 

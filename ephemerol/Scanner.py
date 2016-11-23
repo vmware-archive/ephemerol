@@ -40,8 +40,11 @@ def load_rules(rules_csv):
                                      ))
     set_rulebase(rules)
 
+def load_yaml_rules(yaml_file):
+    with open(yaml_file, 'rU') as yamlfile:
+        load_yaml_rules_stream(yamlfile)
 
-def load_yaml_rules(yaml_stream):
+def load_yaml_rules_stream(yaml_stream):
     rules = []
 
     yaml_rules = yaml.load(yaml_stream)

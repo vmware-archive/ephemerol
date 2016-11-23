@@ -62,9 +62,11 @@
     - "ibm-ejb-jar-ext-pme.xmi"
     - "ibm-ejb-jar-ext-pme.xml"
     - "ibm-webservices-bnd.xmi"
-    - "ibm-webservices-bnd.xml"
+    - "ibm-webservices-ext.xml"
     - "ibm-web-bnd.xmi"
     - "ibm-web-bnd.xml"
+    - "ibm-web-ext.xmi"
+    - "ibm-web-ext.xml"
     - "ibm-web-ext-pme.xmi"
     - "ibm-web-ext-pme.xml"
     - "j2c_plugin.xml"
@@ -86,7 +88,7 @@
   refactor_rating: 1
   replatform_advice: "Convert to Spring based application configuration"
   description: "CDI Beans Config"
-  text_pattern: ["xmlns.jcp.org/xml/ns/javaee"]
+  text_patterns: ["xmlns.jcp.org/xml/ns/javaee"]
   files: [ "beans.xml" ]
 - category: "EJB"
   app_type: java
@@ -95,7 +97,7 @@
   replatform_advice: "Convert to Spring based POJOs for managing data"
   description: "EJB Java API Import"
   file_pattern: "*.java"
-  text_pattern: ["import javax.ejb."]
+  text_patterns: ["import javax.ejb."]
 - category: "JBoss"
   app_type: java
   file_type: java
@@ -103,7 +105,7 @@
   replatform_advice: "Convert to Spring based POJOs instead of using container specific functionality"
   description: "JBoss Java API Import"
   file_pattern: "*.java"
-  text_pattern: ["import org.jboss."]
+  text_patterns: ["import org.jboss."]
 - category: "JCA"
   app_type: java
   file_type: java
@@ -111,7 +113,7 @@
   replatform_advice: "Convert to Spring based POJOs for configuring resource connections"
   description: "JCA Java API Import"
   file_pattern: "*.java"
-  text_pattern: ["import javax.resource."]
+  text_patterns: ["import javax.resource."]
 - category: "JMS"
   app_type: java
   file_type: java
@@ -119,7 +121,7 @@
   replatform_advice: "Convert to Spring based message listener POJOs for messaging based applications"
   description: "JMS Java API Import"
   file_pattern: "*.java"
-  text_pattern: ["import javax.jms."]
+  text_patterns: ["import javax.jms."]
 - category: "JNDI"
   app_type: java
   file_type: java
@@ -127,7 +129,7 @@
   replatform_advice: "Convert to Spring Beans and dependency injection"
   description: "JNDI Java API Import"
   file_pattern: "*.java"
-  text_pattern: ["import javax.naming."]
+  text_patterns: ["import javax.naming."]
 - category: "JPA"
   app_type: java
   file_type: java
@@ -135,7 +137,7 @@
   replatform_advice: "JPA will work inside of Cloud Native applications, but changes may need to be made to the way JPA is configured to get connections."
   description: "JPA Java API Import"
   file_pattern: "*.java"
-  text_pattern: ["import javax.persistence."]
+  text_patterns: ["import javax.persistence."]
 - category: "JTA"
   app_type: java
   file_type: java
@@ -143,7 +145,7 @@
   replatform_advice: "Applications that use JTA often can be refactored to use Spring Transactions to coordinate atomic resources"
   description: "JTA Java API Import"
   file_pattern: "*.java"
-  text_pattern: ["import javax.transaction."]
+  text_patterns: ["import javax.transaction."]
 - category: "Spring JNDI"
   app_type: java
   file_type: java
@@ -151,7 +153,7 @@
   replatform_advice: "Convert to Spring Beans and dependency injection"
   description: "Spring JNDI Java API Import"
   file_pattern: "*.java"
-  text_pattern: ["import org.springframework.jndi."]
+  text_patterns: ["import org.springframework.jndi."]
 - category: "Weblogic"
   app_type: java
   file_type: java
@@ -159,7 +161,7 @@
   replatform_advice: "Move away from container specific APIs to portal APIs such as Spring"
   description: "Weblogic Java API Import"
   file_pattern: "*.java"
-  text_pattern: ["import weblogic."]
+  text_patterns: ["import weblogic."]
 - category: "WebSphere"
   app_type: java
   file_type: java
@@ -167,7 +169,7 @@
   replatform_advice: "Move away from container specific APIs to portal APIs such as Spring"
   description: "WebSphere Java API Import"
   file_pattern: "*.java"
-  text_pattern:
+  text_patterns:
     - "import ibm.websphere."
     - "import ibm.wsspi."
 - category: "Spring"
@@ -176,20 +178,20 @@
   refactor_rating: 0
   description: "Spring Java API Import"
   file_pattern: "*.java"
-  text_pattern: ["import org.springframework."]
+  text_patterns: ["import org.springframework."]
 - category: "Web Profile"
   app_type: java
   file_type: java
   refactor_rating: 0
   description: "Servlet Java API Import"
   file_pattern: "*.java"
-  text_pattern: ["import javax.servlet."]
+  text_patterns: ["import javax.servlet."]
 - category: "12 Factor"
   app_type: java
   file_type: config
   refactor_rating: 1
   file_pattern: "*.xml"
-  text_pattern:
+  text_patterns:
     - "port=": { description: "Port Hard Code", replatform_advice: "Switch to configuration injected via environment" }
     - "file://": { description: "Local Filesystem Reference", replatform_advice: "Read only, immutable files are ok, but writing to the local filesystem will not persist.  Investigate local filesystem access further, and refactor code that stores local data to use an external service, if necessary." }
 - category: ".NET Framework"
@@ -198,7 +200,7 @@
   refactor_rating: 0
   replatform_advice: "Switch to .NET Framework 4.0 or later, or consider migration to .NET Core"
   file_pattern: "*.csproj"
-  text_pattern:
+  text_patterns:
     - "<TargetFrameworkVersion>v1.0</TargetFrameworkVersion>": { description: ".NET Framework 1.0", refactor_rating: 3 }
     - "<TargetFrameworkVersion>v1.1</TargetFrameworkVersion>": { description: ".NET Framework 1.1", refactor_rating: 3 }
     - "<TargetFrameworkVersion>v2.0</TargetFrameworkVersion>": { description: ".NET Framework 2.0", refactor_rating: 3 }
@@ -218,7 +220,7 @@
   replatform_advice: "Convert the Windows service to a console application"
   file_pattern: "*.cs"
   description: "Class extending ServiceBase"
-  text_pattern: [ ": ServiceBase" ]
+  text_patterns: [ ": ServiceBase" ]
 - category: "Database Access"
   app_type: dotnet
   file_type: csharp
@@ -236,7 +238,7 @@
   refactor_rating: 1
   replatform_advice: "Relying on the local filesystem to store state is unreliable in a cloud platform.  Since containers are immutable, restarts will lose any written changes.  Refactor this logic to use an external service to store state."
   file_pattern: "*.cs"
-  text_pattern:
+  text_patterns:
     - "File.Append": { description: "Appending to a file (File.Append*)" }
     - "File.Create": { description: "Calling File.Create" }
     - "File.Move": { description: "Calling File.Move" }

@@ -16,7 +16,7 @@
 from __future__ import print_function
 
 import unittest
-
+import os
 from ephemerol import Scanner
 
 
@@ -34,7 +34,7 @@ class TestYAMLRules(unittest.TestCase):
   files: ["web.xml"]
 """
 
-        Scanner.load_yaml_rules(rule)
+        Scanner.load_yaml_rules_stream(rule)
         self.assertEqual(1, len(Scanner.rulebase), "Should have loaded 1 rule")
         rule = Scanner.rulebase[0]
         self.assertEqual("Web Profile", rule.file_category, "Category should be mapped")
@@ -56,7 +56,7 @@ class TestYAMLRules(unittest.TestCase):
     - "foo.barml"
 """
 
-        Scanner.load_yaml_rules(rule)
+        Scanner.load_yaml_rules_stream(rule)
         self.assertEqual(2, len(Scanner.rulebase))
         rule = Scanner.rulebase[0]
         self.assertEqual("Web Profile", rule.file_category, "Category should be mapped")
@@ -85,7 +85,7 @@ class TestYAMLRules(unittest.TestCase):
     - "application.xml"
 """
 
-        Scanner.load_yaml_rules(rule)
+        Scanner.load_yaml_rules_stream(rule)
         self.assertEqual(1, len(Scanner.rulebase))
         rule = Scanner.rulebase[0]
         self.assertEqual("JEE Config", rule.file_category, "Category should be mapped")
@@ -109,7 +109,7 @@ class TestYAMLRules(unittest.TestCase):
     - "file1": { description: "desc2", replatform_advice: "bar", refactor_rating: 2 }
     - "file2"
 """
-        Scanner.load_yaml_rules(rule)
+        Scanner.load_yaml_rules_stream(rule)
         self.assertEqual(2, len(Scanner.rulebase))
         found1 = False
         found2 = False
@@ -142,7 +142,7 @@ class TestYAMLRules(unittest.TestCase):
   text_patterns: [ "pattern1" ]
   files: [ "file1" ]
 """
-        Scanner.load_yaml_rules(rule)
+        Scanner.load_yaml_rules_stream(rule)
         self.assertEqual(1, len(Scanner.rulebase))
         rule = Scanner.rulebase[0]
         self.assertEqual("cat1", rule.file_category, "Category should be mapped")
@@ -165,7 +165,7 @@ class TestYAMLRules(unittest.TestCase):
   text_patterns: [ "pattern1", "pattern2" ]
   files: [ "file1" ]
 """
-        Scanner.load_yaml_rules(rule)
+        Scanner.load_yaml_rules_stream(rule)
         self.assertEqual(2, len(Scanner.rulebase))
         found1 = False
         found2 = False
@@ -194,7 +194,7 @@ class TestYAMLRules(unittest.TestCase):
     - "pattern2": { description: "desc2", replatform_advice: "bar", refactor_rating: 2 }
   files: [ "file1" ]
 """
-        Scanner.load_yaml_rules(rule)
+        Scanner.load_yaml_rules_stream(rule)
         self.assertEqual(2, len(Scanner.rulebase))
         found1 = False
         found2 = False
@@ -226,7 +226,7 @@ class TestYAMLRules(unittest.TestCase):
   description: "desc1"
   file_pattern: "*.file1"
 """
-        Scanner.load_yaml_rules(rule)
+        Scanner.load_yaml_rules_stream(rule)
         self.assertEqual(1, len(Scanner.rulebase))
         rule = Scanner.rulebase[0]
         self.assertEqual("cat1", rule.file_category, "Category should be mapped")
@@ -250,7 +250,7 @@ class TestYAMLRules(unittest.TestCase):
     - "pattern2": { description: "desc2", replatform_advice: "bar", refactor_rating: 2 }
   file_pattern: "*.file1"
 """
-        Scanner.load_yaml_rules(rule)
+        Scanner.load_yaml_rules_stream(rule)
         self.assertEqual(2, len(Scanner.rulebase))
         found1 = False
         found2 = False
@@ -287,7 +287,7 @@ class TestYAMLRules(unittest.TestCase):
     - "file1"
     - "file2": { description: "desc2", replatform_advice: "bar", refactor_rating: 2 }
 """
-        Scanner.load_yaml_rules(rule)
+        Scanner.load_yaml_rules_stream(rule)
         self.assertEqual(4, len(Scanner.rulebase))
         found1and1 = False
         found1and2 = False
@@ -324,6 +324,18 @@ class TestYAMLRules(unittest.TestCase):
 
         self.assertTrue(found1and1 and found1and2 and found2and1 and found2and2, "Should have found all 4 rule combos")
 
+    def test_archive_scan_yaml(self):
+        Scanner.load_yaml_rules(self.path_helper("rulebase.yml"))
+        results_stats = Scanner.scan_archive(self.path_helper("SampleWebApp-master.zip"))
+        stats = results_stats[1]
+        self.assertEqual(97.44, stats.cloud_readiness_index)
+
+    # Helps allow resources to be resolved if running via py.test or directly in IDE
+    def path_helper(self, file_name):
+        archive = os.path.join("ephemerol", "test", file_name)
+        if not os.path.isfile(archive):
+            archive = file_name
+        return archive
 
 if __name__ == '__main__':
     unittest.main()
