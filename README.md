@@ -9,6 +9,16 @@ Currently, ephemerol scans project source files in a zip file for the following 
 ## Requirements
 Python 2.7.9
 
+## Command Line
+First grab all the dependencies:
+```
+pip install -r requirements.txt
+```
+Then you can run the following to get information on how to invoke the scanner from the command line:
+```
+python -m ephemerol -h
+```
+
 ## Development
 ### Run Web Application Locally
 Run the script as follows to get information on how to invoke it:
