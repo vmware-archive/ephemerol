@@ -44,9 +44,14 @@ pip install --no-use-wheel --download ./ephemerol/vendor -r requirements.txt
 cf push
 ```
 
+## Screenshots
+![home page](screenshots/home.png)
+![report page](screenshots/report.png)
+
 ## GUI Development
 * The project is now React based, which means you will need node.js and NPM to modify the UI.
 * Install npm and node.js - https://www.npmjs.com/get-npm
+* No need for Bower or Gulp or other nonsense thanks to - https://github.com/facebookincubator/create-react-app
 
 ### Live Code Edit Front End
 ```
