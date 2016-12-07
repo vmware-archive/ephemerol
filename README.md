@@ -46,17 +46,26 @@ cf push
 
 ## GUI Development
 * The project is now React based, which means you will need node.js and NPM to modify the UI.
+* Install npm and node.js - https://www.npmjs.com/get-npm
 
 ### Live Code Edit Front End
 ```
 cd ./ephemerol/ephemoral-react
+npm install
 npm start
 ```
 
-### Generate react Distribution
+### Generate/Deploy optimized production GUI
+* Generate optimized react files
+* Deploy react files to static directory
 ```
-cd ./ephemerol/ephemoral-react
 npm run build
+npm run deploy
+```
+
+### Delete existing flask "static" files directory (OPTIONAL)
+```
+npm run clean
 ```
 
 ## Project Core Team

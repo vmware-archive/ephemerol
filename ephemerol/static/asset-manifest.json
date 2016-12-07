@@ -1,12 +1,14 @@
 {
-  "main.css": "static/css/main.1e967c15.css",
-  "main.css.map": "static/css/main.1e967c15.css.map",
-  "main.js": "static/js/main.d77c0ee5.js",
-  "main.js.map": "static/js/main.d77c0ee5.js.map",
+  "main.css": "static/css/main.247f69df.css",
+  "main.css.map": "static/css/main.247f69df.css.map",
+  "main.js": "static/js/main.52ad2db4.js",
+  "main.js.map": "static/js/main.52ad2db4.js.map",
   "static/media/Audiowide-Regular.ttf": "static/media/Audiowide-Regular.1035cee0.ttf",
   "static/media/Bungee-Regular.ttf": "static/media/Bungee-Regular.c706b489.ttf",
   "static/media/GloriaHallelujah.ttf": "static/media/GloriaHallelujah.25d5fb55.ttf",
   "static/media/Roboto-Bold.ttf": "static/media/Roboto-Bold.d329cc8b.ttf",
   "static/media/Roboto-Regular.ttf": "static/media/Roboto-Regular.ac3f799d.ttf",
-  "static/media/VT323-Regular.ttf": "static/media/VT323-Regular.1417df0f.ttf"
+  "static/media/VT323-Regular.ttf": "static/media/VT323-Regular.1417df0f.ttf",
+  "static/media/react-logo.svg": "static/media/react-logo.d2c4010a.svg",
+  "static/media/yaml.png": "static/media/yaml.7f105608.png"
 }

@@ -16,6 +16,8 @@
  */
 
 import React from 'react';
+import ReactImg from '../images/react-logo.svg';
+import YamlImg from '../images/yaml.png';
 
 class SplashContent extends React.Component {
 
@@ -56,14 +58,14 @@ class SplashContent extends React.Component {
                                 files. We will find most of your cloud native issues.</p>
                         </div>
                         <div className="content_col">
-                            <img src="./images/yaml.png"/>
+                            <img src={YamlImg}/>
                         </div>
                     </div>
                 </div>
                 <div className="alt_bg">
                     <div className="content_row">
                         <div className="content_col">
-                            <img src="./images/react-logo.svg" className="react-logo"/>
+                            <img src={ReactImg} className="react-logo"/>
                         </div>
                         <div className="content_col">
                             <h2>Slick User Interface</h2>
@@ -78,7 +80,7 @@ class SplashContent extends React.Component {
                         <div className="content_col">
                             <h2>CI/CD Tool Integration</h2>
                             <p>Invoke ephemerol from the command line and the scanner rules will run and pretty print in
-                                <a href="http://concourse.ci">Concourse</a> or a less capable continous integration
+                                 <a href="http://concourse.ci">Concourse</a> or a less capable continous integration
                                 tool. </p>
                         </div>
                         <div className="content_col">
