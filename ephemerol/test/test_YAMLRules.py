@@ -40,7 +40,7 @@ class TestYAMLRules(unittest.TestCase):
         self.assertEqual("Web Profile", rule.file_category, "Category should be mapped")
         self.assertEqual("java", rule.app_type, "App Type should be mapped")
         self.assertEqual("config", rule.file_type, "File Type should be mapped")
-        self.assertEqual(0, rule.refactor_rating, "Refactor Rating should be mapped")
+        self.assertEqual("0", rule.refactor_rating, "Refactor Rating should be mapped")
         self.assertEqual("Web application config file", rule.description, "Description should be mapped")
         self.assertEqual("web.xml", rule.file_name, "File Name should be mapped")
 
@@ -62,14 +62,14 @@ class TestYAMLRules(unittest.TestCase):
         self.assertEqual("Web Profile", rule.file_category, "Category should be mapped")
         self.assertEqual("java", rule.app_type, "App Type should be mapped")
         self.assertEqual("config", rule.file_type, "File Type should be mapped")
-        self.assertEqual(0, rule.refactor_rating, "Refactor Rating should be mapped")
+        self.assertEqual("0", rule.refactor_rating, "Refactor Rating should be mapped")
         self.assertEqual("Web application config file", rule.description, "Description should be mapped")
         self.assertEqual("web.xml", rule.file_name, "File Name should be mapped")
         rule = Scanner.rulebase[1]
         self.assertEqual("Web Profile", rule.file_category, "Category should be mapped")
         self.assertEqual("java", rule.app_type, "App Type should be mapped")
         self.assertEqual("config", rule.file_type, "File Type should be mapped")
-        self.assertEqual(0, rule.refactor_rating, "Refactor Rating should be mapped")
+        self.assertEqual("0", rule.refactor_rating, "Refactor Rating should be mapped")
         self.assertEqual("Web application config file", rule.description, "Description should be mapped")
         self.assertEqual("foo.barml", rule.file_name, "File Name should be mapped")
 
@@ -91,7 +91,7 @@ class TestYAMLRules(unittest.TestCase):
         self.assertEqual("JEE Config", rule.file_category, "Category should be mapped")
         self.assertEqual("java", rule.app_type, "App Type should be mapped")
         self.assertEqual("config", rule.file_type, "File Type should be mapped")
-        self.assertEqual(1, rule.refactor_rating, "Refactor Rating should be mapped")
+        self.assertEqual("1", rule.refactor_rating, "Refactor Rating should be mapped")
         self.assertEqual("Convert to Spring based application configuration", rule.replatform_advice,
                          "Replatform Advice should be mapped")
         self.assertEqual("JEE specific config file", rule.description, "Description should be mapped")
@@ -120,12 +120,12 @@ class TestYAMLRules(unittest.TestCase):
             self.assertTrue(rule.file_name == "file1" or rule.file_name == "file2")
             if rule.file_name == "file1":
                 found1 = True
-                self.assertEqual(2, rule.refactor_rating, "Refactor Rating should be mapped")
+                self.assertEqual("2", rule.refactor_rating, "Refactor Rating should be mapped")
                 self.assertEqual("bar", rule.replatform_advice, "Replatform Advice should be mapped")
                 self.assertEqual("desc2", rule.description, "Description should be mapped")
             elif rule.file_name == "file2":
                 found2 = True
-                self.assertEqual(0, rule.refactor_rating, "Refactor Rating should be mapped")
+                self.assertEqual("0", rule.refactor_rating, "Refactor Rating should be mapped")
                 self.assertEqual("foo", rule.replatform_advice, "Replatform Advice should be mapped")
                 self.assertEqual("desc1", rule.description, "Description should be mapped")
                 self.assertEqual("file2", rule.file_name, "File Name should be mapped")
@@ -149,7 +149,7 @@ class TestYAMLRules(unittest.TestCase):
         self.assertEqual("app1", rule.app_type, "App Type should be mapped")
         self.assertEqual("type1", rule.file_type, "File Type should be mapped")
         self.assertEqual("file1", rule.file_name, "File name should be mapped")
-        self.assertEqual(1, rule.refactor_rating, "Refactor Rating should be mapped")
+        self.assertEqual("1", rule.refactor_rating, "Refactor Rating should be mapped")
         self.assertEqual("foo", rule.replatform_advice, "Replatform Advice should be mapped")
         self.assertEqual("desc1", rule.description, "Description should be mapped")
         self.assertEqual("pattern1", rule.text_pattern, "Text pattern should be mapped")
@@ -208,12 +208,12 @@ class TestYAMLRules(unittest.TestCase):
                 found1 = True
                 self.assertEqual("desc1", rule.description, "Description should be mapped")
                 self.assertEqual("foo", rule.replatform_advice, "Replatform advice should be mapped")
-                self.assertEqual(1, rule.refactor_rating, "Refactor rating should be mapped")
+                self.assertEqual("1", rule.refactor_rating, "Refactor rating should be mapped")
             elif rule.text_pattern == "pattern2":
                 found2 = True
                 self.assertEqual("desc2", rule.description, "Description should be mapped")
                 self.assertEqual("bar", rule.replatform_advice, "Replatform advice should be mapped")
-                self.assertEqual(2, rule.refactor_rating, "Refactor rating should be mapped")
+                self.assertEqual("2", rule.refactor_rating, "Refactor rating should be mapped")
         self.assertTrue(found1 and found2, "Should have found pattern1 and pattern2")
 
     def test_rule_load_with_file_pattern(self):
@@ -233,7 +233,7 @@ class TestYAMLRules(unittest.TestCase):
         self.assertEqual("app1", rule.app_type, "App Type should be mapped")
         self.assertEqual("type1", rule.file_type, "File Type should be mapped")
         self.assertEqual("*.file1", rule.file_name, "File name should be mapped")
-        self.assertEqual(1, rule.refactor_rating, "Refactor Rating should be mapped")
+        self.assertEqual("1", rule.refactor_rating, "Refactor Rating should be mapped")
         self.assertEqual("foo", rule.replatform_advice, "Replatform Advice should be mapped")
         self.assertEqual("desc1", rule.description, "Description should be mapped")
 
@@ -264,12 +264,12 @@ class TestYAMLRules(unittest.TestCase):
                 found1 = True
                 self.assertEqual("desc1", rule.description, "Description should be mapped")
                 self.assertEqual("foo", rule.replatform_advice, "Replatform advice should be mapped")
-                self.assertEqual(1, rule.refactor_rating, "Refactor rating should be mapped")
+                self.assertEqual("1", rule.refactor_rating, "Refactor rating should be mapped")
             elif rule.text_pattern == "pattern2":
                 found2 = True
                 self.assertEqual("desc2", rule.description, "Description should be mapped")
                 self.assertEqual("bar", rule.replatform_advice, "Replatform advice should be mapped")
-                self.assertEqual(2, rule.refactor_rating, "Refactor rating should be mapped")
+                self.assertEqual("2", rule.refactor_rating, "Refactor rating should be mapped")
         self.assertTrue(found1 and found2, "Should have found pattern1 and pattern2")
 
     def test_rule_load_with_text_pattern_overriding_files_overriding_rule(self):
@@ -304,31 +304,30 @@ class TestYAMLRules(unittest.TestCase):
                     found1and1 = True
                     self.assertEqual("desc1", rule.description, "Description should be mapped")
                     self.assertEqual("foo", rule.replatform_advice, "Replatform advice should be mapped")
-                    self.assertEqual(1, rule.refactor_rating, "Refactor rating should be mapped")
+                    self.assertEqual("1", rule.refactor_rating, "Refactor rating should be mapped")
                 elif rule.text_pattern == "pattern2":
                     found1and2 = True
                     self.assertEqual("desc3", rule.description, "Description should be mapped")
                     self.assertEqual("bap", rule.replatform_advice, "Replatform advice should be mapped")
-                    self.assertEqual(3, rule.refactor_rating, "Refactor rating should be mapped")
+                    self.assertEqual("3", rule.refactor_rating, "Refactor rating should be mapped")
             elif rule.file_name == "file2":
                 if rule.text_pattern == "pattern1":
                     found2and1 = True
                     self.assertEqual("desc2", rule.description, "Description should be mapped")
                     self.assertEqual("bar", rule.replatform_advice, "Replatform advice should be mapped")
-                    self.assertEqual(2, rule.refactor_rating, "Refactor rating should be mapped")
+                    self.assertEqual("2", rule.refactor_rating, "Refactor rating should be mapped")
                 elif rule.text_pattern == "pattern2":
                     found2and2 = True
                     self.assertEqual("desc3", rule.description, "Description should be mapped")
                     self.assertEqual("bap", rule.replatform_advice, "Replatform advice should be mapped")
-                    self.assertEqual(3, rule.refactor_rating, "Refactor rating should be mapped")
+                    self.assertEqual("3", rule.refactor_rating, "Refactor rating should be mapped")
 
         self.assertTrue(found1and1 and found1and2 and found2and1 and found2and2, "Should have found all 4 rule combos")
 
     def test_archive_scan_yaml(self):
         Scanner.load_yaml_rules(self.path_helper("rulebase.yml"))
         results_stats = Scanner.scan_archive(self.path_helper("SampleWebApp-master.zip"))
-        stats = results_stats[1]
-        self.assertEqual(97.44, stats.cloud_readiness_index)
+        self.assertEqual(97.44, results_stats.cloud_readiness_index)
 
     # Helps allow resources to be resolved if running via py.test or directly in IDE
     def path_helper(self, file_name):

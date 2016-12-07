@@ -12,78 +12,69 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 from flask import render_template, Flask, request, Response, flash
+from flask_cors import cross_origin
+from Models import JSONEncoderModels
 import Scanner
 import sys
 import logging
 import os
 import tempfile
+import json
 
-ALLOWED_EXTENSIONS = set(['zip', 'csv'])
+ALLOWED_EXTENSIONS = set(['zip', 'yml'])
 UPLOAD_FOLDER = tempfile.gettempdir()
 
 app = Flask(__name__)
 app.secret_key = 'some_secret'
 
-
 @app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/report')
-def report():
-    return render_template('report.html')
-
+def root():
+    return app.send_static_file('index.html')
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-@app.route('/upload', methods=['POST'])
-def upload_rules():
+@app.route('/scan', methods=['POST'])
+@cross_origin()
+def scan():
     file = request.files['file']
-
     if file == False or allowed_file(file.filename) == False:
-        flash('Invalid File Upload Attempt')
-        return render_template('index.html')
-
-    upload_type = request.form.get('submitbtn')
-    try:
-        if upload_type == 'csv_load' or upload_type == 'yaml_load':
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-            file.save(file_path)
-            if upload_type == 'csv_load':
-                Scanner.load_rules(file_path)
-                flash('CSV Scan Rules Loaded')
-            elif upload_type == 'yaml_load':
-                Scanner.load_yaml_rules(file_path)
-                flash('YAML Scan Rules Loaded')
-            return render_template('index.html')
-    except:
-        flash('Rules Load Failed. Check Rules file.' + str(sys.exc_info()))
-        return render_template('index.html')
+        return Response(status=500, mimetype='application/json')
 
     try:
-        if request.form.get('submitbtn') == 'zip_scan':
-            if not os.path.exists(app.config['UPLOAD_FOLDER']):
-                os.makedirs(app.config['UPLOAD_FOLDER'])
+        if not os.path.exists(app.config['UPLOAD_FOLDER']):
+            os.makedirs(app.config['UPLOAD_FOLDER'])
 
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-            results = Scanner.scan_archive(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-            return render_template('report.html', results=results, filename=file.filename)
-    except:
-        flash('ZIP File Scan Failed.' + str(sys.exc_info()))
-        return render_template('index.html')
+        if (len(Scanner.rulebase) == 0):
+            Scanner.load_yaml_rules(os.path.join(app.static_folder, 'default-rulebase.yml'))
 
-@app.route('/scan/report', methods=['POST'])
-def scan_report():
-    file = request.files['file']
-    if file and allowed_file(file.filename):
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
         results = Scanner.scan_archive(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-        return render_template('report.html', results=results, filename=file.filename)
-    return Response(status=500, mimetype='text/plain')
+        return Response(json.dumps(results, cls=JSONEncoderModels), mimetype='application/json')
+
+    except Exception as e:
+        logging.error(e)
+        return Response(status=500, mimetype='application/json')
+
+
+@app.route('/load_rules', methods=['POST'])
+@cross_origin()
+def load_rules():
+
+    file = request.files['file']
+    if file == False or allowed_file(file.filename) == False:
+        return Response(status=500, mimetype='application/json')
+
+    try:
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+        file.save(file_path)
+        Scanner.load_yaml_rules(file_path)
+        return Response(status=200, mimetype='application/json')
+    except Exception as e:
+        logging.error(e)
+        return Response(status=500, mimetype='application/json')
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, handler=logging.StreamHandler(sys.stdout),
@@ -93,4 +84,3 @@ if __name__ == '__main__':
     logging.info("Starting ephemerol web on port: %s", port)
 
     app.run(host='0.0.0.0', port=int(port))
-

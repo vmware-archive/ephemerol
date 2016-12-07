@@ -15,6 +15,7 @@
 
 import csv
 from zipfile import ZipFile
+import os
 
 import yaml
 
@@ -22,7 +23,6 @@ from Models import ScanItem, ScanResult, ScanStats
 
 rulebase = []
 scan_results = []
-
 
 def load_rules(rules_csv):
 
@@ -243,5 +243,4 @@ def scan_archive(file_name):
     with ZipFile(file_name, 'r') as zfile:
         config_scan(zfile.namelist())
         source_scan(zfile)
-
-    return scan_results, ScanStats(scan_results)
+    return ScanStats(scan_results)

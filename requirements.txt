@@ -3,3 +3,4 @@ mock
 werkzeug
 flask
 PyYAML
+flask-cors

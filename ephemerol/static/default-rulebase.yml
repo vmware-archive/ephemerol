@@ -1,0 +1,251 @@
+- category: "Web Profile"
+  app_type: java
+  file_type: config
+  refactor_rating: 0
+  description: "Web application config file"
+  files:
+    - "persistence.xml": { description: "JPA based ORM" }
+    - "web.xml"
+    - "applicationContext.xml": { description: "Spring application config file" }
+    - "WEB-INF"
+    - "css"
+- category: "JEE Config"
+  app_type: java
+  file_type: config
+  refactor_rating: 1
+  replatform_advice: "Convert to Spring based application configuration"
+  description: "JEE specific config file"
+  files:
+    - "application.xml"
+    - "application-client.xml"
+    - "ejb-jar.xml"
+    - "ra.xml"
+    - "webservices.xml"
+- category: "Weblogic Config"
+  app_type: java
+  file_type: config
+  refactor_rating: 1
+  replatform_advice: "Convert to Spring based application configuration"
+  description: "Weblogic specific config file"
+  files:
+    - "weblogic.xml"
+    - "weblogic-cmp-rdbms-jar.xml"
+    - "weblogic-ejb-jar.xml"
+    - "weblogic-ra.xml"
+    - "persistence-configuration.xml"
+    - "weblogic-webservices.xml"
+    - "weblogic-wsee-clientHandlerChain.xml"
+    - "webservice-policy-ref.xml"
+    - "weblogic-wsee-standaloneclient.xml"
+    - "weblogic-application.xml"
+- category: "WebSphere Config"
+  app_type: java
+  file_type: config
+  refactor_rating: 1
+  replatform_advice: "Convert to Spring based application configuration"
+  description: "WebSphere specific config file"
+  files:
+    - "client-resource.xmi"
+    - "ibm-application-bnd.xmi"
+    - "ibm-application-bnd.xml"
+    - "ibm-application-client-bnd.xmi"
+    - "ibm-application-client-bnd.xml"
+    - "ibm-application-client-ext.xmi"
+    - "ibm-application-client-ext.xml"
+    - "ibm-application-ext.xmi"
+    - "ibm-application-ext.xml"
+    - "ibm-ejb-access-bean.xml"
+    - "ibm-ejb-jar-bnd.xmi"
+    - "ibm-ejb-jar-bnd.xml"
+    - "ibm-ejb-jar-ext.xmi"
+    - "ibm-ejb-jar-ext.xml"
+    - "ibm-ejb-jar-ext-pme.xmi"
+    - "ibm-ejb-jar-ext-pme.xml"
+    - "ibm-webservices-bnd.xmi"
+    - "ibm-webservices-ext.xml"
+    - "ibm-web-bnd.xmi"
+    - "ibm-web-bnd.xml"
+    - "ibm-web-ext.xmi"
+    - "ibm-web-ext.xml"
+    - "ibm-web-ext-pme.xmi"
+    - "ibm-web-ext-pme.xml"
+    - "j2c_plugin.xml"
+- category: "JBoss Config"
+  app_type: java
+  file_type: config
+  refactor_rating: 1
+  replatform_advice: "Convert to Spring based application configuration"
+  description: "JBoss specific config file"
+  files:
+    - "jaws.xml"
+    - "jboss.xml"
+    - "jbosscmp-jdbc.xml"
+    - "jboss-service.xml"
+    - "jboss-web.xml"
+- category: "Java EE Config"
+  app_type: java
+  file_type: config
+  refactor_rating: 1
+  replatform_advice: "Convert to Spring based application configuration"
+  description: "CDI Beans Config"
+  text_patterns: ["xmlns.jcp.org/xml/ns/javaee"]
+  files: [ "beans.xml" ]
+- category: "EJB"
+  app_type: java
+  file_type: java
+  refactor_rating: 3
+  replatform_advice: "Convert to Spring based POJOs for managing data"
+  description: "EJB Java API Import"
+  file_pattern: "*.java"
+  text_patterns: ["import javax.ejb."]
+- category: "JBoss"
+  app_type: java
+  file_type: java
+  refactor_rating: 3
+  replatform_advice: "Convert to Spring based POJOs instead of using container specific functionality"
+  description: "JBoss Java API Import"
+  file_pattern: "*.java"
+  text_patterns: ["import org.jboss."]
+- category: "JCA"
+  app_type: java
+  file_type: java
+  refactor_rating: 3
+  replatform_advice: "Convert to Spring based POJOs for configuring resource connections"
+  description: "JCA Java API Import"
+  file_pattern: "*.java"
+  text_patterns: ["import javax.resource."]
+- category: "JMS"
+  app_type: java
+  file_type: java
+  refactor_rating: 2
+  replatform_advice: "Convert to Spring based message listener POJOs for messaging based applications"
+  description: "JMS Java API Import"
+  file_pattern: "*.java"
+  text_patterns: ["import javax.jms."]
+- category: "JNDI"
+  app_type: java
+  file_type: java
+  refactor_rating: 1
+  replatform_advice: "Convert to Spring Beans and dependency injection"
+  description: "JNDI Java API Import"
+  file_pattern: "*.java"
+  text_patterns: ["import javax.naming."]
+- category: "JPA"
+  app_type: java
+  file_type: java
+  refactor_rating: 0
+  replatform_advice: "JPA will work inside of Cloud Native applications, but changes may need to be made to the way JPA is configured to get connections."
+  description: "JPA Java API Import"
+  file_pattern: "*.java"
+  text_patterns: ["import javax.persistence."]
+- category: "JTA"
+  app_type: java
+  file_type: java
+  refactor_rating: 0
+  replatform_advice: "Applications that use JTA often can be refactored to use Spring Transactions to coordinate atomic resources"
+  description: "JTA Java API Import"
+  file_pattern: "*.java"
+  text_patterns: ["import javax.transaction."]
+- category: "Spring JNDI"
+  app_type: java
+  file_type: java
+  refactor_rating: 1
+  replatform_advice: "Convert to Spring Beans and dependency injection"
+  description: "Spring JNDI Java API Import"
+  file_pattern: "*.java"
+  text_patterns: ["import org.springframework.jndi."]
+- category: "Weblogic"
+  app_type: java
+  file_type: java
+  refactor_rating: 3
+  replatform_advice: "Move away from container specific APIs to portal APIs such as Spring"
+  description: "Weblogic Java API Import"
+  file_pattern: "*.java"
+  text_patterns: ["import weblogic."]
+- category: "WebSphere"
+  app_type: java
+  file_type: java
+  refactor_rating: 3
+  replatform_advice: "Move away from container specific APIs to portal APIs such as Spring"
+  description: "WebSphere Java API Import"
+  file_pattern: "*.java"
+  text_patterns:
+    - "import ibm.websphere."
+    - "import ibm.wsspi."
+- category: "Spring"
+  app_type: java
+  file_type: java
+  refactor_rating: 0
+  description: "Spring Java API Import"
+  file_pattern: "*.java"
+  text_patterns: ["import org.springframework."]
+- category: "Web Profile"
+  app_type: java
+  file_type: java
+  refactor_rating: 0
+  description: "Servlet Java API Import"
+  file_pattern: "*.java"
+  text_patterns: ["import javax.servlet."]
+- category: "12 Factor"
+  app_type: java
+  file_type: config
+  refactor_rating: 1
+  file_pattern: "*.xml"
+  text_patterns:
+    - "port=": { description: "Port Hard Code", replatform_advice: "Switch to configuration injected via environment" }
+    - "file://": { description: "Local Filesystem Reference", replatform_advice: "Read only, immutable files are ok, but writing to the local filesystem will not persist.  Investigate local filesystem access further, and refactor code that stores local data to use an external service, if necessary." }
+- category: ".NET Framework"
+  app_type: dotnet
+  file_type: config
+  refactor_rating: 0
+  replatform_advice: "Switch to .NET Framework 4.0 or later, or consider migration to .NET Core"
+  file_pattern: "*.csproj"
+  text_patterns:
+    - "<TargetFrameworkVersion>v1.0</TargetFrameworkVersion>": { description: ".NET Framework 1.0", refactor_rating: 3 }
+    - "<TargetFrameworkVersion>v1.1</TargetFrameworkVersion>": { description: ".NET Framework 1.1", refactor_rating: 3 }
+    - "<TargetFrameworkVersion>v2.0</TargetFrameworkVersion>": { description: ".NET Framework 2.0", refactor_rating: 3 }
+    - "<TargetFrameworkVersion>v3.0</TargetFrameworkVersion>": { description: ".NET Framework 3.0", refactor_rating: 1 }
+    - "<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>": { description: ".NET Framework 3.5", refactor_rating: 1 }
+    - "<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>": { description: ".NET Framework 4.0", replatform_advice: ~ }
+    - "<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>": { description: ".NET Framework 4.5", replatform_advice: ~ }
+    - "<TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>": { description: ".NET Framework 4.5.1", replatform_advice: ~ }
+    - "<TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>": { description: ".NET Framework 4.5.2", replatform_advice: ~ }
+    - "<TargetFrameworkVersion>v4.6</TargetFrameworkVersion>": { description: ".NET Framework 4.6", replatform_advice: ~ }
+    - "<TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>": { description: ".NET Framework 4.6.1", replatform_advice: ~ }
+    - "<TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>": { description: ".NET Framework 4.6.2", replatform_advice: ~ }
+- category: "Windows Service"
+  app_type: dotnet
+  file_type: csharp
+  refactor_rating: 1
+  replatform_advice: "Convert the Windows service to a console application"
+  file_pattern: "*.cs"
+  description: "Class extending ServiceBase"
+  text_patterns: [ ": ServiceBase" ]
+- category: "Database Access"
+  app_type: dotnet
+  file_type: csharp
+  refactor_rating: 1
+  replatform_advice: "Typically, applications using databases need to be converted to receive their connection strings from the environment.  Use Project Steeltoe (steeltoe.io) to easily inject cloud provided service bindings."
+  file_pattern: "*.cs"
+  text_patterns:
+    - "using System.Data.OleDb;": { description: "Class importing System.Data.OleDb" }
+    - "using System.Data.Odbc;": { description: "Class importing System.Data.Odbc" }
+    - "using System.Data;": { description: "Class importing System.Data (ADO.NET)" }
+    - "using System.Data.Entity;": { description: "Class importing System.Data.Entity (Entity Framework)" }
+- category: "Local Filesystem Access"
+  app_type: dotnet
+  file_type: csharp
+  refactor_rating: 1
+  replatform_advice: "Relying on the local filesystem to store state is unreliable in a cloud platform.  Since containers are immutable, restarts will lose any written changes.  Refactor this logic to use an external service to store state."
+  file_pattern: "*.cs"
+  text_patterns:
+    - "File.Append": { description: "Appending to a file (File.Append*)" }
+    - "File.Create": { description: "Calling File.Create" }
+    - "File.Move": { description: "Calling File.Move" }
+    - "File.Open": { description: "Calling File.Open (investigate further to determine refactor rating)", refactor_rating: 0 }
+    - "File.OpenWrite": { description: "Calling File.OpenWrite" }
+    - "File.Replace": { description: "Calling File.Replace" }
+    - "File.Set": { description: "Setting File Metadata (File.Set*)" }
+    - "File.Write": { description: "Writing to a file (File.Write*)" }
+    - "new FileStream(": { description: "Direct construction of FileStream (investigate further to determine refactor rating)" }
+    - "FileSystemWatcher": { description: "Use of FileSystemWatcher" }
