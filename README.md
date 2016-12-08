@@ -61,7 +61,7 @@ npm start
 ```
 
 ### Generate/Deploy optimized production GUI
-* Generate optimized react files
+* Generate production optimized react files for web server
 * Deploy react files to static directory
 ```
 npm run build
