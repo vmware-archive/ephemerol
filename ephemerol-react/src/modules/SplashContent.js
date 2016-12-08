@@ -28,8 +28,8 @@ class SplashContent extends React.Component {
                 <div className="row content">
                     <div>
                         <h1>Source Code Scanner</h1>
-                        <h2>Upload source .ZIP to conduct cloud ready
-                            check</h2>
+                        <h2>Upload source .ZIP to conduct cloud readiness
+                            checks</h2>
                     </div>
                     <div className="section">
                         <div className="section_part">
@@ -79,9 +79,7 @@ class SplashContent extends React.Component {
 
                         <div className="content_col">
                             <h2>CI/CD Tool Integration</h2>
-                            <p>Invoke ephemerol from the command line and the scanner rules will run and pretty print in
-                                 <a href="http://concourse.ci">Concourse</a> or a less capable continous integration
-                                tool. </p>
+                            <p>Invoke ephemerol from the command line and the scanner rules will run and pretty print in <a href="http://concourse.ci">Concourse</a> or a less capable continous integration tool.</p>
                         </div>
                         <div className="content_col">
                             <p className="cmd-example">python -m ephemerol rulefile.yml source.zip</p>
