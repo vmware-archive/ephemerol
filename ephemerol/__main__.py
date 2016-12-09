@@ -13,6 +13,10 @@
 
 import argparse
 import Scanner
+import pprint
+import yaml
+from Models import JSONEncoderModels
+import json
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='python -m ephemerol',
@@ -27,12 +31,6 @@ if __name__ == '__main__':
         Scanner.load_rules(args.rulefile)
     else:
         Scanner.load_yaml_rules(args.rulefile)
-    results, score = Scanner.scan_archive(args.archive)
-    print( "%s:\n  Readiness: %d" % (args.archive, score.cloud_readiness_index))
+    results = Scanner.scan_archive(args.archive)
 
-    for item in results:
-        flagged_file_id = item.flagged_file_id
-        scan_item = item.scan_item
-        print( 'Category,Type,File,Description,RefactorRating')
-        print( '%s,%s,%s,%s,%s' % (scan_item.file_category, scan_item.app_type, flagged_file_id,
-                                   scan_item.description, scan_item.refactor_rating))
+    print json.dumps(results, cls=JSONEncoderModels, indent=1, sort_keys=True)
