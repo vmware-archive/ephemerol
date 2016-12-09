@@ -13,8 +13,6 @@
 
 import argparse
 import Scanner
-import pprint
-import yaml
 from Models import JSONEncoderModels
 import json
 
