@@ -14,5 +14,5 @@ run:
   args:
   - -exc
   - |
-    cd ./ephemerol/ephemerol/test
+    cd ./ephemerol/test
     python -m ephemerol rulebase.yml source.zip | jq .scan_stats.cloud_readiness_index
