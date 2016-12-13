@@ -17,7 +17,7 @@ run:
     cd ./source-files
     python -m ephemerol ./ephemerol/test/rulebase.yml ./ephemerol/test/SampleWebApp-master.zip
     score=`python -m ephemerol ./ephemerol/test/rulebase.yml ./ephemerol/test/SampleWebApp-master.zip | jq .scan_stats.cloud_readiness_index`
-    if [ "$score" -lt 98.00 ]
+    if [ bc<<<"$score" -lt 98.00 ]
     then
       return 1
     fi
