@@ -16,4 +16,8 @@ run:
   - |
     cd ./source-files
     python -m ephemerol ./ephemerol/test/rulebase.yml ./ephemerol/test/SampleWebApp-master.zip
-    python -m ephemerol ./ephemerol/test/rulebase.yml ./ephemerol/test/SampleWebApp-master.zip | jq .scan_stats.cloud_readiness_index
+    var score =`python -m ephemerol ./ephemerol/test/rulebase.yml ./ephemerol/test/SampleWebApp-master.zip | jq .scan_stats.cloud_readiness_index`
+    if [ "$score" -lt 98 ]
+    then
+      return 1
+    fi
