@@ -15,4 +15,4 @@ run:
   - -exc
   - |
     cd ./ephemerol/test
-    python -m ephemerol rulebase.yml source.zip | jq .scan_stats.cloud_readiness_index
+    python -m ephemerol rulebase.yml SampleWebApp-master.zip | jq .scan_stats.cloud_readiness_index
