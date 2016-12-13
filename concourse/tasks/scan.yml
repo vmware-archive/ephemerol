@@ -1,0 +1,18 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: williamsjt/ephemorel
+    tag: latest
+
+inputs:
+  - name: source-files
+
+run:
+  path: sh
+  args:
+  - -exc
+  - |
+    cd source-files/ephemerol/ephemerol/test
+    python -m ephemerol rulebase.yml source.zip

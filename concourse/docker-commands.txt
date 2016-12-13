@@ -1,0 +1,11 @@
+#build docker image
+docker build -t "williamsjt/ephemerol" .
+
+#push docker image
+docker push williamsjt/ephemerol
+
+#login to local concourse
+fly -t lite login -c http://192.168.100.4:8080
+
+#push concourse pipeline for ephemerol
+fly -t lite set-pipeline -p ephemerol-demo -c pipeline.yml

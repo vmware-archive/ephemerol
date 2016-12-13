@@ -1,0 +1,22 @@
+resources:
+  - name: source-files
+    type: git
+    source:
+      uri: https://github.com/Pivotal-Field-Engineering/ephemerol
+      branch: master
+
+jobs:
+  - name: scan
+    plan:
+    - get: source-files
+      trigger: true
+    - task: scan
+      file: source-files/concourse/tasks/scan.yml
+
+  - name: deploy
+    plan:
+    - get: source-files
+      trigger: true
+      passed: [scan]
+    - task: deploy
+      file: source-files/concourse/tasks/deploy.yml
