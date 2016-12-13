@@ -14,4 +14,5 @@ run:
   args:
   - -exc
   - |
-    python -m ephemerol ./source-files/ephemerol/test/rulebase.yml ./source-files/ephemerol/test/SampleWebApp-master.zip | jq .scan_stats.cloud_readiness_index
+    cd ./source-files
+    python -m ephemerol ./ephemerol/test/rulebase.yml ./ephemerol/test/SampleWebApp-master.zip | jq .scan_stats.cloud_readiness_index

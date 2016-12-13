@@ -1,4 +1,4 @@
-FROM python
+FROM python:2.7
 MAINTAINER James Williams "williams_jt@yahoo.com"
 RUN wget -O cf-cli.deb https://cli.run.pivotal.io/stable?release=debian64
 
