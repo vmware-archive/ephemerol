@@ -15,8 +15,8 @@ run:
   - -exc
   - |
     cd ./source-files
-    scan_output=`python -m ephemerol ./ephemerol/test/rulebase.yml ./ephemerol/test/SampleWebApp-master.zip`
-    scan_passed=`echo $scan_output | jq '.scan_stats.cloud_readiness_index > 98'`
+    scan_output=`python -m ephemerol $RULEBASE_PATH $SOURCE_ZIP_PATH`
+    scan_passed=`echo $scan_output | jq '.scan_stats.cloud_readiness_index > $MINIMUM_SCAN_INDEX'`
     if [ !"$scan_passed" ]; then
        echo "SOURCE SCAN FAILED!!!"
        exit 1
