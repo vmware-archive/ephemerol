@@ -19,6 +19,5 @@ run:
     scan_passed=`echo $scan_output | jq '.scan_stats.cloud_readiness_index > 98'`
     if [ !"$scan_passed" ]; then
        echo "SOURCE SCAN FAILED!!!"
-       echo "$scan_output"
        exit 1
     fi
