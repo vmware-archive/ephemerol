@@ -11,7 +11,7 @@ jobs:
     - get: source-files
       trigger: true
     - task: scan
-    params:
+      params:
         MINIMUM_SCAN_INDEX: 98
         RULEBASE_PATH: ./ephemerol/test/rulebase.yml
         SOURCE_ZIP_PATH: ./ephemerol/test/SampleWebApp-master.zip
