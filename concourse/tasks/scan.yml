@@ -15,4 +15,4 @@ run:
   - -exc
   - |
     cd ./source-files
-    python -m ephemerol ./ephemerol/test/rulebase.yml ./ephemerol/test/SampleWebApp-master.zip | jq '.scan_stats.cloud_readiness_index > 98'
+    python -m ephemerol ./ephemerol/test/rulebase.yml ./ephemerol/test/SampleWebApp-master.zip | jq '.scan_stats.cloud_readiness_index < 98'
