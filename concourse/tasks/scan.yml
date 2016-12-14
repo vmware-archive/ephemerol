@@ -18,5 +18,6 @@ run:
     scan_passed=`python -m ephemerol ./ephemerol/test/rulebase.yml ./ephemerol/test/SampleWebApp-master.zip | jq '.scan_stats.cloud_readiness_index > 98'`
     if [ "$scan_passed" == "false" ]
        echo "Source Scan Failed"
+       python -m ephemerol ./ephemerol/test/rulebase.yml ./ephemerol/test/SampleWebApp-master.zip
        exit 1
     fi
