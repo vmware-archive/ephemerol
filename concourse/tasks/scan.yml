@@ -16,4 +16,4 @@ run:
   - |
     cd ./source-files
     scan_output=`python -m ephemerol $RULEBASE_PATH $SOURCE_ZIP_PATH`
-    exit `echo "$MINIMUM_SCAN_INDEX>$cloud_readiness_index" | bc`
+    `echo "$MINIMUM_SCAN_INDEX>$cloud_readiness_index" | bc`
