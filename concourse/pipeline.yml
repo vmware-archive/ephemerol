@@ -12,7 +12,7 @@ jobs:
       trigger: true
     - task: scan
       params:
-        MINIMUM_SCAN_INDEX: 98
+        MINIMUM_SCAN_INDEX: 97
         RULEBASE_PATH: ./ephemerol/test/rulebase.yml
         SOURCE_ZIP_PATH: ./ephemerol/test/SampleWebApp-master.zip
       file: source-files/concourse/tasks/scan.yml

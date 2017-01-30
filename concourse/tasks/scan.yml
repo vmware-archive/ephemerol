@@ -16,8 +16,11 @@ run:
   - |
     cd ./source-files
     scan_output=`python -m ephemerol $RULEBASE_PATH $SOURCE_ZIP_PATH`
-    scan_passed=`echo $scan_output | jq '.scan_stats.cloud_readiness_index > echo $MINIMUM_SCAN_INDEX'`
-    if [ !"$scan_passed" ]; then
-       echo "SOURCE SCAN FAILED!!!"
-       exit 1
+
+    cloud_readiness_index=`echo $scan_output | jq '.scan_stats.cloud_readiness_index'`
+    if [ `echo "$MINIMUM_SCAN_INDEX>$cloud_readiness_index" | bc` -eq 1 ]; then
+        echo "Cloud readiness scan failed. Please review output: "
+        echo $scan_output
+    else
+        echo "Cloud readiness scan passed. Cloud Readiness index is: $cloud_readiness_index"
     fi
