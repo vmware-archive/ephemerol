@@ -39,6 +39,9 @@ class ScanStats extends React.Component {
         var scan_items = this.props.scan_stats.scan_items.map(scan_item =>
             <ScanItem scan_item={scan_item}/>
         );
+        var scan_items_info = this.props.scan_stats.scan_items_info.map(scan_item =>
+            <ScanItem scan_item={scan_item}/>
+        );
         return (
             <div>
                 <div className="row scanContent">
@@ -78,6 +81,21 @@ class ScanStats extends React.Component {
                             <th>Replatform Advice</th>
                         </tr>
                         {scan_items}
+                        </tbody>
+                    </table>
+                    <h2>Informational Items</h2>
+                    <table className="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <th>App Type</th>
+                            <th>File Category</th>
+                            <th>File Type</th>
+                            <th>File Path</th>
+                            <th>Refactor Rating</th>
+                            <th>Description</th>
+                            <th>Replatform Advice</th>
+                        </tr>
+                        {scan_items_info}
                         </tbody>
                     </table>
                 </div>

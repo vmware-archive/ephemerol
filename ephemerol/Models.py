@@ -83,6 +83,7 @@ class ScanStats():
     def __init__(self, scan_result_list):
         self.scan_result_list = scan_result_list
         self.category_result = {}
+        self.category_info = []
         score = 1000
         categories_flagged = []
         files_flagged = []
@@ -96,6 +97,8 @@ class ScanStats():
                 files_flagged.append(entry.flagged_file_id)
             if entry.refactor_rating != "0":
                 self.category_result[entry.category_key] = entry
+            else:
+                self.category_info.append(entry)
 
         self.cloud_readiness_index = round((score / 1000 * 100), 2)
         self.categories_flagged = categories_flagged
@@ -131,6 +134,12 @@ class JSONEncoderModels(json.JSONEncoder):
                 # scan_items_arr.append(json.dumps(scan_result.__dict__,ensure_ascii=False))
 
             result['scan_stats']['scan_items'] = scan_items_arr
+
+            scan_items_info_arr = []
+            for scan_info in obj.category_info:
+                scan_items_info_arr.append(scan_info.__dict__)
+
+            result['scan_stats']['scan_items_info'] = scan_items_info_arr
 
             return result
         return json.JSONEncoder.default(self, obj)
