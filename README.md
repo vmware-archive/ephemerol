@@ -40,7 +40,7 @@ python -m pytest
 ## Deploy to Cloud Foundry
 ```
 mkdir ./ephemerol/vendor
-pip install --no-use-wheel --download ./ephemerol/vendor -r requirements.txt
+pip download --no-binary :all -d ./ephemerol/vendor -r requirements.txt
 cf push
 ```
 
