@@ -249,3 +249,14 @@
     - "File.Write": { description: "Writing to a file (File.Write*)" }
     - "new FileStream(": { description: "Direct construction of FileStream (investigate further to determine refactor rating)" }
     - "FileSystemWatcher": { description: "Use of FileSystemWatcher" }
+- category: "WCF"
+  app_type: dotnet
+  file_type: config
+  files: ['Web.config']
+  text_patterns:
+    - "<system.serviceModel>": { description: "WCF Services", replatform_advice: "WCF is supported with no transport security", refactor_rating: 0}
+    - "basicHttpsBinding": { description: "Basic HTTPS Binding", replatform_advice: "Disable HTTPS at the container and allow the external load balancer to terminate SSL", refactor_rating: 3}
+    - "mode=\"Transport": { description: "Transport Security", replatform_advice: "Transport security at the container is not supported.  Disable transport security on the service, and add the [ServiceBehavior(AddressFilterMode = AddressFilterMode.Any)] attribute to any services that need to be invoked over HTTPS.", refactor_rating: 3}
+- category: ""
+  text_patterns:
+    - "
