@@ -175,6 +175,8 @@ def get_scan_func(fname):
         return xml_file_scan
     elif fname.endswith('.csproj'):
         return csproj_file_scan
+    elif fname.endswith('.config'):
+        return webconfig_file_scan
     elif fname.endswith('.cs'):
         return cs_file_scan
 
@@ -221,6 +223,19 @@ def csproj_file_scan(file_lines, filename):
             if rule.text_pattern in line:
                 scan_results.append(ScanResult(scan_item=rule, flagged_file_id=filename))
 
+def webconfig_file_scan(file_lines, filename):
+    dotnetrules = []
+    global scan_results
+    for rule in rulebase:
+        if (rule.file_type == "config") \
+                and (rule.app_type == "dotnet") \
+                and (rule.file_name == "*.config") \
+                and (rule.text_pattern != "NONE"):
+            dotnetrules.append(rule)
+    for line in file_lines:
+        for rule in dotnetrules:
+            if rule.text_pattern in line:
+                scan_results.append(ScanResult(scan_item=rule, flagged_file_id=filename))
 
 def cs_file_scan(file_lines, filename):
     cs_file_rules = []
