@@ -194,6 +194,16 @@
   text_patterns:
     - "port=": { description: "Port Hard Code", replatform_advice: "Switch to configuration injected via environment" }
     - "file://": { description: "Local Filesystem Reference", replatform_advice: "Read only, immutable files are ok, but writing to the local filesystem will not persist.  Investigate local filesystem access further, and refactor code that stores local data to use an external service, if necessary." }
+    - "http://": { description: "HTTP URL hardcoded", replatform_advice: "Externalize URLs" }
+    - "https://": { description: "HTTPS URL hardcoded", replatform_advice: "Externalize URLs" }
+- category: "12 Factor"
+  app_type: java
+  file_type: config
+  refactor_rating: 1
+  file_pattern: "*.yml"
+  text_patterns:
+    - "http://": { description: "HTTP URL hardcoded", replatform_advice: "Externalize URLs" }
+    - "https://": { description: "HTTPS URL hardcoded", replatform_advice: "Externalize URLs" }
 - category: ".NET Framework"
   app_type: dotnet
   file_type: config
