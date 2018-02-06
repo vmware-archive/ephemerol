@@ -204,6 +204,8 @@
   text_patterns:
     - "http://": { description: "HTTP URL hardcoded", replatform_advice: "Externalize URLs" }
     - "https://": { description: "HTTPS URL hardcoded", replatform_advice: "Externalize URLs" }
+    - "password:": { description: "Password parameter", replatform_advice: "Review to ensure password is not in cleartext" }
+    - "apiKey:": { description: "API Key parameter", replatform_advice: "Review to ensure API Key is not in cleartext" }
 - category: ".NET Framework"
   app_type: dotnet
   file_type: config
