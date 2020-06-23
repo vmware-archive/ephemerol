@@ -39,8 +39,9 @@ python -m pytest
 
 ## Deploy to Cloud Foundry
 ```
+cd ephemerol #folder from git clone
 mkdir ./ephemerol/vendor
-pip download --no-binary :all -d ./ephemerol/vendor -r requirements.txt
+pip --trusted-host pypi.org --trusted-host files.pythonhosted.org download --no-binary :all -d ./ephemerol/vendor -r requirements.txt
 cf push
 ```
 

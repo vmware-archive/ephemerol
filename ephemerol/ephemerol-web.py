@@ -77,8 +77,8 @@ def load_rules():
         return Response(status=500, mimetype='application/json')
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO, handler=logging.StreamHandler(sys.stdout),
-                        format='%(levelname)s - %(module)s - %(message)s')
+    logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(module)s - %(message)s')
+    logging.StreamHandler(sys.stdout)
     port = os.getenv('PORT', '5000')
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     logging.info("Starting ephemerol web on port: %s", port)
